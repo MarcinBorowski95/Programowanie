@@ -1,0 +1,189 @@
+<div class="panel">
+  <div class="panelHead">
+    <h1> Zarejestruj nowego użytkownika </h1>
+  </div>
+  <div class="panelRegister">
+    <form 
+    class="formRegister"
+    #formRef = "ngForm"
+    (ngSubmit) = "register(formRef.valid)"
+    >
+      <fieldset 
+      class="register"
+      ngModelGroup="register"
+      >
+        <div class="field">
+          <label class="tag" for="firstname"> Imie </label> 
+          <br>
+          <input
+          class="textfield"
+          id="firstname"
+          name="firstname"
+          #firstnameRef = "ngModel"
+          type="text"
+          [(ngModel)] = "registerUser.firstname"
+          required
+          pattern="[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŻŹ]+"
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && firstnameRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && firstnameRef.errors?.pattern"
+        >
+          Imie posiada tylko litery
+        </div>
+
+        <div class="field">
+          <label class="tag" for="lastname"> Nazwisko </label> 
+          <br>
+          <input
+          class="textfield"
+          id="lastname"
+          name="lastname"
+          #lastnameRef = "ngModel"
+          type="text"
+          [(ngModel)] = "registerUser.lastname"
+          required
+          pattern="[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŻŹ]+"
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && lastnameRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && lastnameRef.errors?.pattern"
+        >
+          Nazwisko posiada tylko litery
+        </div>
+
+        <div class="field">
+          <label class="tag" for="birthdate"> Data urodzin </label> 
+          <br>
+          <input
+          class="birthdate"
+          id="birthdate"
+          name="birthdate"
+          #birthdateRef = "ngModel"
+          type="date" 
+          [(ngModel)] = "registerUser.birthdate"
+          required
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && birthdateRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+
+        <div class="field"> 
+          <label class="tag" for="sex"> Płeć </label>
+          <br>
+          <input 
+          class="sexradio"
+          id="male"
+          type="radio"
+          name="sex"
+          value="male"
+          [(ngModel)]="registerUser.sex" 
+          #sexRef="ngModel" 
+          required 
+          >
+          <label class="sex" for="male">  Mężczyzna  </label><br>
+          <input 
+          class="sexradio"
+          id="female"
+          type="radio"
+          name="sex"
+          value="female"
+          [(ngModel)]="registerUser.sex" 
+          #sexRef="ngModel" 
+          required 
+          > 
+          <label class="sex" for="female"> Kobieta </label>
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && sexRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+
+        <div class="field">
+          <label class="tag" for="email"> E-Mail </label> 
+          <br>
+          <input
+          class="email"
+          id="email"
+          name="email"
+          #emailRef = "ngModel"
+          type="email"
+          [(ngModel)] = "registerUser.email"
+          required
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && emailRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && emailRef.errors?.pattern"
+        >
+          Błędny E-Mail
+        </div>
+
+        <div class="field">
+          <label class="tag" for="password"> Hasło </label> 
+          <br>
+          <input
+          class="password"
+          id="password"
+          name="password"
+          #passwordRef="ngModel"
+          type="password"
+          [(ngModel)] = "registerUser.password"
+          required
+          minlength="6"
+          pattern="[a-zA-Z1-9]+"
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && passwordRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && passwordRef.errors?.pattern"
+        >
+          Hasło nie może mieć znaków specjalnych
+        </div>
+        <div 
+        class="hint"
+        *ngIf = "passwordRef.errors?.minlength || passwordRef.pristine || passwordRef.errors?.required"
+        >
+          To pole musi mieć minimum 6 znaków
+        </div>
+
+        <button type="submit" class="subbutton"> Zarejestruj </button>
+        <button type="button" class="logbutton" routerLink="/login" > Logowanie </button>
+      
+      </fieldset>
+    </form>
+  </div>
+</div>

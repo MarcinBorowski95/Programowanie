@@ -1,0 +1,75 @@
+<div class="panel">
+  <div class="panelHead">
+    <h1> Proszę się zalogować </h1>
+  </div>
+  <div class="panelLogin">
+    <form 
+    class="formLogin"
+    #formRef = "ngForm"
+    (ngSubmit) = "login(formRef.valid)"
+    >
+      <fieldset 
+      class="login"
+      ngModelGroup="login"
+      >
+          <div>
+            <label class="tag" for="email"> E-Mail </label> 
+            <br>
+            <input
+            class="email"
+            id="email"
+            name="email"
+            #emailRef = "ngModel"
+            type="email"
+            [(ngModel)] = "loginUser.email"
+            required
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            >
+            </div>
+            <div 
+            class="error"
+            *ngIf = "formRef.submitted && emailRef.errors?.required"
+            >
+              To pole jest obowiązkowe
+            </div>
+            <div 
+            class="error"
+            *ngIf = "formRef.submitted && emailRef.errors?.pattern"
+            >
+              Niepoprawny E-Mail
+            </div>
+
+        <div>
+          <label for="password"> Hasło </label> 
+          <br>
+          <input
+          id="password"
+          name="password"
+          #passwordRef="ngModel"
+          type="password"
+          [(ngModel)] = "loginUser.password"
+          required
+          minlength="6"
+          >
+        </div>
+        <div 
+        class="error"
+        *ngIf = "formRef.submitted && passwordRef.errors?.required"
+        >
+          To pole jest obowiązkowe
+        </div>
+        <div 
+        class="hint"
+        *ngIf = "passwordRef.errors?.minlength || passwordRef.pristine || passwordRef.errors?.required"
+        >
+          To pole musi mieć minimum 6 znaków
+        </div>
+
+        <button type="submit" class="subbutton" > Zaloguj </button>
+        <button type="button" class="regbutton" routerLink="/register" > Rejestracja </button>
+      
+      </fieldset>
+    </form>
+  </div>
+</div>
+
