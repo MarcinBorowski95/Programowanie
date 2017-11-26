@@ -33,9 +33,17 @@ export class AuthService {
 
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
+      if(auth)
+      {
+        console.log(auth);
+      }
     });
 
-    
+  }
+
+  // Returns true if user is logged in
+  get authenticated$(): Observable<boolean> {
+    return this.afAuth.authState.map((user) => !!user);
   }
 
   // Returns true if user is logged in
