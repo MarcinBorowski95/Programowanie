@@ -7,6 +7,7 @@
     class="formRegister"
     #formRef = "ngForm"
     (ngSubmit) = "register(formRef.valid)"
+    autocomplete="off"
     >
       <fieldset 
       class="register"
@@ -131,6 +132,7 @@
           [(ngModel)] = "registerUser.email"
           required
           pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+          autocomplete="nope"
           >
         </div>
         <div 
@@ -159,6 +161,7 @@
           required
           minlength="6"
           pattern="[a-zA-Z1-9]+"
+          autocomplete="new-password"
           >
         </div>
         <div 
