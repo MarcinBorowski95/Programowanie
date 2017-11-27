@@ -78,7 +78,7 @@
       [weekStartsOn]="weekStartsOn"
       [weekendDays]="weekendDays"
       [refresh]="refresh"
-      (dayClicked)="clickedDate = $event.day.date"
+      (dayClicked)="dayClicked($event.day); daySelected($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>

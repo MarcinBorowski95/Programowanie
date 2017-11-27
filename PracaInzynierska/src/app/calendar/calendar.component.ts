@@ -12,7 +12,9 @@ import {
   endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours
+  addHours,
+  isPast,
+  isFuture
 } from 'date-fns';
 import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +23,8 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   DAYS_OF_WEEK,
-  CalendarDateFormatter
+  CalendarDateFormatter,
+  CalendarMonthViewDay
 } from 'angular-calendar';
 
 import { CustomDateFormatter } from './custom-date-formatter.provider';
@@ -73,6 +76,8 @@ export class CalendarComponent{
 
     clickedDate: Date;
   
+    selectedDay: CalendarMonthViewDay;    
+
     actions: CalendarEventAction[] = [
       {
         label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -101,18 +106,34 @@ export class CalendarComponent{
   
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
-        if (
-          (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-          events.length === 0
-        ) {
-          this.activeDayIsOpen = false;
-        } else {
-          this.activeDayIsOpen = true;
-          this.viewDate = date;
+        if (isFuture(date))
+        {
+          if (
+            (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+            events.length === 0
+          ) {
+            this.activeDayIsOpen = false;
+          } else {
+            this.activeDayIsOpen = true;
+            this.viewDate = date;
+          }
         }
+        
       }
     }
   
+    daySelected(day: CalendarMonthViewDay): void {
+      if(isFuture(day.date))
+      {
+        if (this.selectedDay) {
+          delete this.selectedDay.cssClass;
+        }
+        day.cssClass = 'cal-day-selected';
+        this.selectedDay = day;
+        this.clickedDate = day.date;
+      }
+    }
+
     eventTimesChanged({
       event,
       newStart,

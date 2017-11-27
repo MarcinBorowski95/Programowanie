@@ -180,3 +180,8 @@ input:hover
     transition:.3s linear;
     padding:10px;
 }
+
+.cal-day-selected,
+.cal-day-selected:hover {
+  background-color: cyan !important;
+}
