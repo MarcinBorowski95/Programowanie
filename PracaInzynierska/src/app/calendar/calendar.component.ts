@@ -28,6 +28,7 @@ import {
 } from 'angular-calendar';
 
 import { CustomDateFormatter } from './custom-date-formatter.provider';
+import { DayViewHour } from 'calendar-utils';
 
 const colors: any = {
   red: {
@@ -51,8 +52,8 @@ const colors: any = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: CalendarDateFormatter,
-      useClass: CustomDateFormatter
+      provide: CalendarDateFormatter, 
+      useClass: CustomDateFormatter,
     }
   ]
 })
@@ -74,7 +75,8 @@ export class CalendarComponent{
     
     weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
 
-    clickedDate: Date;
+    clickedDate: any;
+    clickedTime: any;
   
     selectedDay: CalendarMonthViewDay;    
 
@@ -115,7 +117,6 @@ export class CalendarComponent{
             this.activeDayIsOpen = false;
           } else {
             this.activeDayIsOpen = true;
-            this.viewDate = date;
           }
         }
         
@@ -128,10 +129,17 @@ export class CalendarComponent{
         if (this.selectedDay) {
           delete this.selectedDay.cssClass;
         }
-        day.cssClass = 'cal-day-selected';
+        this.viewDate = day.date;
         this.selectedDay = day;
-        this.clickedDate = day.date;
+        this.clickedDate = day.date.toLocaleDateString();
+        this.view = 'day';
+        day.cssClass = 'cal-day-selected';
       }
+    }
+
+    timeSelected(time: Date): void {
+      this.clickedTime = time.toLocaleTimeString();
+      this.view = 'month';
     }
 
     eventTimesChanged({

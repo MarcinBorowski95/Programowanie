@@ -35,7 +35,6 @@ export class AuthService {
       this.authState = auth
       if(auth)
       {
-        console.log(auth);
       }
     });
 
