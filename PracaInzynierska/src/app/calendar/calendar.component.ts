@@ -1,3 +1,4 @@
+import { DatabaseService } from './../_services/Database.service';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -29,6 +30,7 @@ import {
 
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { DayViewHour } from 'calendar-utils';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: {
@@ -51,15 +53,20 @@ const colors: any = {
   styleUrls: ['./calendar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    DatabaseService,
     {
       provide: CalendarDateFormatter, 
       useClass: CustomDateFormatter,
-    }
+    },
   ]
 })
 export class CalendarComponent{
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   
+    names = [
+      "car1", "car2", "car3"
+    ]
+
     view: string = 'month';
   
     viewDate: Date = new Date();
@@ -104,7 +111,11 @@ export class CalendarComponent{
   
     activeDayIsOpen: boolean = true;
   
-    constructor(private modal: NgbModal) {}
+    constructor(
+      private modal: NgbModal,
+      private dbService: DatabaseService  ,
+      private router: Router
+    ) {}
   
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
@@ -138,8 +149,34 @@ export class CalendarComponent{
     }
 
     timeSelected(time: Date): void {
-      this.clickedTime = time.toLocaleTimeString();
-      this.view = 'month';
+      if (time.getHours() >= 8 && time.getHours() <= 18)
+      {
+        this.clickedTime = time.toLocaleTimeString();
+        this.view = 'month';
+      }
+      else
+      {
+        alert("Wybrano złą godzinę. Proszę wybrać godzinę między 8:00 a 19:00");
+      }
+    }
+
+    appointment(valid)
+    {
+      if (valid)
+      {
+        var appointmentInfo = {
+          date: this.clickedDate,
+          time: this.clickedTime
+        }
+        this.dbService.newAppointment(appointmentInfo);
+        
+        alert("Zostałeś umówiony na " + this.clickedDate + " o godzinie " + this.clickedTime);
+        this.router.navigate(['']);
+      }
+      else
+      {
+        alert("Błędnie uzupełniony formularz")
+      }    
     }
 
     eventTimesChanged({

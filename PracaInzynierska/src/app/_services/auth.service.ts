@@ -202,7 +202,8 @@ export class AuthService {
       birthdate: userInfo.birthdate ,
       sex: userInfo.sex ,
       email: userInfo.email,
-      password: userInfo.password
+      password: userInfo.password,
+      flag: 0
     }
 
     console.log(userInfo);

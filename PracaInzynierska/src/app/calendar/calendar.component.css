@@ -158,6 +158,7 @@ input
     outline:none;
     margin:0 auto;
     padding:7px 5px;
+    text-align: center
 }
 
 input:hover
@@ -181,8 +182,83 @@ input:hover
     padding:10px;
 }
 
+.appointment-handler
+{
+  position:relative;
+  max-width:500px;
+  width:100%;
+  min-width:400px;
+  margin:0 auto;
+  align-items: center;
+  text-align: center;
+  padding: 10px
+}
 
+form
+{
+  color:#2c3e50;
+  font-family:sans-serif;
+  font-size: 25px;
+  width:100%;
+  margin:0 auto;
+  align-items: center;
+  text-align: center;
+  background:#ecf0f1;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.5);
+}
 
+fieldset
+{
+  border:none;
+  margin:0 auto;
+}
+
+label
+{
+  text-align:left;
+  font-family:sans-serif;
+  font-weight:700;
+  font-size:26px;
+  cursor:pointer;
+  margin:0 auto;
+  padding:5px;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+}
+
+label:hover
+{
+  text-shadow: 0 0 8px cyan;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+}
+
+button.subbutton
+{
+  background:#1abc9c;
+  font-size:20px;
+  display:inline-block;
+  width:30%;
+  border:none;
+  color:#fff;
+  border-radius:5px 5px 5px 5px;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  padding:10px;
+  margin-top: 5px;
+}
+
+button.subbutton:hover
+{
+  background:#008B8B;
+}
 
 .cal-month-view .cal-header {
     background-color: #ffffff;
