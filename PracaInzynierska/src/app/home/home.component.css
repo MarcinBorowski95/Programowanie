@@ -83,7 +83,7 @@ label:hover
 
 button.logoutbutton
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/logout.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/logout.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
@@ -102,7 +102,7 @@ button.logoutbutton
 
 button.callendarbutton
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/calendar.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/calendar.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
@@ -121,7 +121,7 @@ button.callendarbutton
 
 button.statbutton
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/stat.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/stat.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
@@ -140,21 +140,21 @@ button.statbutton
 
 button.logoutbutton:hover
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/logoutHover.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/logoutHover.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
 }
 button.callendarbutton:hover
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/calendarHover.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/calendarHover.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
 }
 button.statbutton:hover
 {
-  background:url("D:/Programowanie/PracaInzynierska/src/assets/statHover.png");
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/statHover.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
