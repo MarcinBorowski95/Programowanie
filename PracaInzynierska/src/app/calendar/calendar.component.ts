@@ -1,9 +1,11 @@
+import { Appointment } from './../_DBModels/appointment';
 import { DatabaseService } from './../_services/Database.service';
 import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  OnInit
 } from '@angular/core';
 import {
   startOfDay,
@@ -15,7 +17,10 @@ import {
   isSameMonth,
   addHours,
   isPast,
-  isFuture
+  isFuture,
+  endOfWeek,
+  startOfWeek,
+  startOfMonth
 } from 'date-fns';
 import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,6 +36,7 @@ import {
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { DayViewHour } from 'calendar-utils';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 const colors: any = {
   red: {
@@ -60,12 +66,12 @@ const colors: any = {
     },
   ]
 })
-export class CalendarComponent{
+export class CalendarComponent implements OnInit{
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   
-    names = [
-      "car1", "car2", "car3"
-    ]
+    dbAppointments = this.dbService.appointments;
+
+    events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
     view: string = 'month';
   
@@ -117,6 +123,24 @@ export class CalendarComponent{
       private router: Router
     ) {}
   
+    ngOnInit(): void {
+      this.fetchEvents();
+    }
+
+    fetchEvents(): void {
+      const getStart: any = {
+        month: startOfMonth,
+        week: startOfWeek,
+        day: startOfDay
+      }[this.view];
+  
+      const getEnd: any = {
+        month: endOfMonth,
+        week: endOfWeek,
+        day: endOfDay
+      }[this.view];
+    }
+
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
         if (isFuture(date))

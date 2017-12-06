@@ -10,22 +10,29 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DatabaseService {
-    constructor(private db: AngularFireDatabase) { }
 
-    newAppointment(appointmentInfo): void {
+  appointments: Observable<any>;
+  users: Observable<any>;
 
-        const appointmentID = this.db.createPushId()
-        const path = `appointment/${appointmentID}`;
-        const appointmentRef: AngularFireObject<any> = this.db.object(path);
+  constructor(private db: AngularFireDatabase) {
+    this.appointments = db.list('appointment').valueChanges();
+    this.users = db.list('users').valueChanges();
+  }
+
+  newAppointment(appointmentInfo): void {
+
+    const appointmentID = this.db.createPushId()
+    const path = `appointment/${appointmentID}`;
+    const appointmentRef: AngularFireObject<any> = this.db.object(path);
     
-        const data = {
-          date: appointmentInfo.date,
-          time: appointmentInfo.time,
-          flag: 0
-        }
+    const data = {
+      date: appointmentInfo.date,
+      time: appointmentInfo.time,
+      flag: 0
+    }
     
-        appointmentRef.set(data)
-          .catch(error => console.log(error));
+    appointmentRef.set(data)
+      .catch(error => console.log(error));
     
-      }
+  }
 }

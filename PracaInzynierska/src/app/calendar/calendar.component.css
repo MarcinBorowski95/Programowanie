@@ -20,6 +20,7 @@ h3
 }
 
 
+
 .text-center
 {
     position:relative;
@@ -78,6 +79,7 @@ h3
     -o-transition:.3s linear;
     transition:.3s linear;
     padding:10px;
+    cursor: pointer;
 }
 
 .btn-primary:hover
@@ -99,6 +101,7 @@ h3
     -o-transition:.3s linear;
     transition:.3s linear;
     padding:10px;
+    cursor: pointer;
 }
 
 .btn-outline-secondary:hover
@@ -259,6 +262,9 @@ button.subbutton:hover
 {
   background:#008B8B;
 }
+
+
+
 
 .cal-month-view .cal-header {
     background-color: #ffffff;
