@@ -77,19 +77,18 @@
     <mwl-calendar-month-view
       *ngSwitchCase="'month'"
       [viewDate]="viewDate"
-      [events]="events"
-      [locale]="locale"
+      [events]="events$ | async"
       [weekStartsOn]="weekStartsOn"
       [weekendDays]="weekendDays"
       [refresh]="refresh"
-      (dayClicked)="dayClicked($event.day); daySelected($event.day); "
+      [locale]="locale"
+      (dayClicked)="daySelected($event.day); "
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
     <mwl-calendar-day-view
       *ngSwitchCase="'day'"
       [viewDate]="viewDate"
-      [events]="events"
       [locale]="locale"
       [refresh]="refresh"
       (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -116,7 +115,7 @@
           name="appointmentDate"
           #appointmentDateRef = "ngModel"
           type="calendarDate"
-          [(ngModel)] = "clickedDate"
+          [(ngModel)] = "dateToShow"
           required
           onkeydown="return false"
           readonly="readonly"
@@ -147,5 +146,4 @@
     </form>
 
   </div>
-  <h1>{{ (dbAppointments | async) }}</h1>
 </div>

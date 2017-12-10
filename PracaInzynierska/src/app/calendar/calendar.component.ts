@@ -61,176 +61,109 @@ const colors: any = {
   providers: [
     DatabaseService,
     {
-      provide: CalendarDateFormatter, 
+      provide: CalendarDateFormatter,
       useClass: CustomDateFormatter,
     },
   ]
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  
-    dbAppointments = this.dbService.appointments;
 
-    events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
+  // dbAppointments = this.dbService.appointments;
 
-    view: string = 'month';
-  
-    viewDate: Date = new Date();
-  
-    modalData: {
-      action: string;
-      event: CalendarEvent;
-    };
+  events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
-    locale: string = 'pl';
+  view: string = 'month';
 
-    weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
-    
-    weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
+  viewDate: Date = new Date();
 
-    clickedDate: any;
-    clickedTime: any;
-  
-    selectedDay: CalendarMonthViewDay;    
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
 
-    actions: CalendarEventAction[] = [
-      {
-        label: '<i class="fa fa-fw fa-pencil"></i>',
-        onClick: ({ event }: { event: CalendarEvent }): void => {
-          this.handleEvent('Edited', event);
-        }
-      },
-      {
-        label: '<i class="fa fa-fw fa-times"></i>',
-        onClick: ({ event }: { event: CalendarEvent }): void => {
-          this.events = this.events.filter(iEvent => iEvent !== event);
-          this.handleEvent('Deleted', event);
-        }
-      }
-    ];
-  
-    refresh: Subject<any> = new Subject();
-  
-    events: CalendarEvent[] = [
-      
-    ];
-  
-    activeDayIsOpen: boolean = true;
-  
-    constructor(
-      private modal: NgbModal,
-      private dbService: DatabaseService  ,
-      private router: Router
-    ) {}
-  
-    ngOnInit(): void {
-      this.fetchEvents();
-    }
+  locale: string = 'pl';
 
-    fetchEvents(): void {
-      const getStart: any = {
-        month: startOfMonth,
-        week: startOfWeek,
-        day: startOfDay
-      }[this.view];
-  
-      const getEnd: any = {
-        month: endOfMonth,
-        week: endOfWeek,
-        day: endOfDay
-      }[this.view];
-    }
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
-    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-      if (isSameMonth(date, this.viewDate)) {
-        if (isFuture(date))
-        {
-          if (
-            (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-            events.length === 0
-          ) {
-            this.activeDayIsOpen = false;
-          } else {
-            this.activeDayIsOpen = true;
+  weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
+
+  clickedDate: number;
+  clickedTime: string;
+  dateToShow: string;
+
+  selectedDay: CalendarMonthViewDay;
+
+  refresh: Subject<any> = new Subject();
+
+  events: CalendarEvent[] = [
+
+  ];
+
+  activeDayIsOpen: boolean = true;
+
+  constructor(
+    private modal: NgbModal,
+    private dbService: DatabaseService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    this.events$ = this.dbService.appointments
+      .map((appiontments: Appointment[]) =>
+        appiontments.map((appointment: Appointment) => ({
+          title: 'appointment.title',
+          start: new Date(appointment.date),
+          color: colors.yellow,
+          meta: {
+            appointment
           }
-        }
-        
-      }
-    }
-  
-    daySelected(day: CalendarMonthViewDay): void {
-      if(isFuture(day.date))
-      {
-        if (this.selectedDay) {
-          delete this.selectedDay.cssClass;
-        }
-        this.viewDate = day.date;
-        this.selectedDay = day;
-        this.clickedDate = day.date.toLocaleDateString();
-        this.view = 'day';
-        day.cssClass = 'cal-day-selected';
-      }
-    }
+        })))
+  }
 
-    timeSelected(time: Date): void {
-      if (time.getHours() >= 8 && time.getHours() <= 18)
-      {
-        this.clickedTime = time.toLocaleTimeString();
-        this.view = 'month';
+  daySelected(day: CalendarMonthViewDay): void {
+    if (isFuture(day.date)) {
+      if (this.selectedDay) {
+        delete this.selectedDay.cssClass;
       }
-      else
-      {
-        alert("Wybrano złą godzinę. Proszę wybrać godzinę między 8:00 a 19:00");
-      }
-    }
-
-    appointment(valid)
-    {
-      if (valid)
-      {
-        var appointmentInfo = {
-          date: this.clickedDate,
-          time: this.clickedTime
-        }
-        this.dbService.newAppointment(appointmentInfo);
-        
-        alert("Zostałeś umówiony na " + this.clickedDate + " o godzinie " + this.clickedTime);
-        this.router.navigate(['']);
-      }
-      else
-      {
-        alert("Błędnie uzupełniony formularz")
-      }    
-    }
-
-    eventTimesChanged({
-      event,
-      newStart,
-      newEnd
-    }: CalendarEventTimesChangedEvent): void {
-      event.start = newStart;
-      event.end = newEnd;
-      this.handleEvent('Dropped or resized', event);
-      this.refresh.next();
-    }
-  
-    handleEvent(action: string, event: CalendarEvent): void {
-      this.modalData = { event, action };
-      this.modal.open(this.modalContent, { size: 'lg' });
-    }
-  
-    addEvent(): void {
-      this.events.push({
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      });
-      this.refresh.next();
+      this.viewDate = day.date;
+      this.selectedDay = day;
+      this.clickedDate = day.date.getTime();
+      this.dateToShow = day.date.toLocaleDateString();
+      this.view = 'day';
+      day.cssClass = 'cal-day-selected';
     }
   }
+
+  timeSelected(time: Date): void {
+    if (time.getHours() >= 8 && time.getHours() <= 18) {
+      this.clickedTime = time.toLocaleTimeString();
+      this.view = 'month';
+    }
+    else {
+      alert("Wybrano złą godzinę. Proszę wybrać godzinę między 8:00 a 19:00");
+    }
+  }
+
+  appointment(valid) {
+    if (valid) {
+      var appointmentInfo = {
+        date: this.clickedDate,
+        time: this.clickedTime
+      }
+      this.dbService.newAppointment(appointmentInfo);
+
+      alert("Zostałeś umówiony na " + this.clickedDate + " o godzinie " + this.clickedTime);
+      this.router.navigate(['']);
+    }
+    else {
+      alert("Błędnie uzupełniony formularz")
+    }
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time)
+  }
+
+}
