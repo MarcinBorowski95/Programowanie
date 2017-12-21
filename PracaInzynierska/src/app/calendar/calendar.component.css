@@ -82,6 +82,11 @@ h3
     cursor: pointer;
 }
 
+.back
+{
+  width: 60%;
+}
+
 .btn-primary:hover
 {
     background:#008B8B;

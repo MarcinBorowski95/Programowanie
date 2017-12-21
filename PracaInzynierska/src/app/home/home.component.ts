@@ -48,18 +48,8 @@ export class HomeComponent implements OnInit {
   ]);
 
   ngOnInit() {
-    if(this.authService.authenticated)
-    {
-      console.log("Zalogowany");
-    }
-    else
-    {
-      console.log("Brak zalogowanego użytkownika")
-    }
     this.users = this.dbService.getUsers();
-    this.users.subscribe(x => x.forEach(element => {
-      console.log(element);
-      
+    this.users.subscribe(x => x.forEach(element => {      
       if(this.authService.authState.email == element.email)
       {
         this.view=element.flag

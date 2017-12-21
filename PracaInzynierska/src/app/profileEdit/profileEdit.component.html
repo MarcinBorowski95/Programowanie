@@ -148,41 +148,6 @@
           Błędny E-Mail
         </div>
 
-        <div class="field">
-          <label class="tag" for="password"> Hasło </label> 
-          <br>
-          <input
-          class="password"
-          id="password"
-          name="password"
-          #passwordRef="ngModel"
-          type="password"
-          [(ngModel)] = "EditUser.password"
-          required
-          minlength="6"
-          pattern="[a-zA-Z1-9]+"
-          autocomplete="new-password"
-          >
-        </div>
-        <div 
-        class="error"
-        *ngIf = "formRef.submitted && passwordRef.errors?.required"
-        >
-          To pole jest obowiązkowe
-        </div>
-        <div 
-        class="error"
-        *ngIf = "formRef.submitted && passwordRef.errors?.pattern"
-        >
-          Hasło nie może mieć znaków specjalnych
-        </div>
-        <div 
-        class="hint"
-        *ngIf = "passwordRef.errors?.minlength || passwordRef.pristine || passwordRef.errors?.required"
-        >
-          To pole musi mieć minimum 6 znaków
-        </div>
-
         <button type="submit" class="subbutton"> Zapisz zmiany </button>
         <button type="button" class="logbutton" routerLink="/" > Anuluj zmiany </button>
       

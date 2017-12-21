@@ -73,9 +73,7 @@ export class ProfileEditComponent implements OnInit {
     document.getElementById('birthdate').setAttribute('max' , this.getMaxDate() );
     document.getElementById('birthdate').setAttribute('min' , this.getMinDate() );
     this.users = this.dbService.getUsers();
-    this.users.subscribe(x => x.forEach(element => {
-      console.log(element);
-      
+    this.users.subscribe(x => x.forEach(element => {      
       if(this.authService.authState.email == element.email)
       {
         this.EditUser=element
