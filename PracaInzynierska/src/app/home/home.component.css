@@ -138,6 +138,26 @@ button.statbutton
   border: none;
 }
 
+button.profilebutton
+{
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/user.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  width: 30%;
+  height: 20em;
+  color:#fff;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  margin: 5px auto;
+  display: inline-block;
+  position:relative;
+  border: none;
+}
+
+
 button.logoutbutton:hover
 {
   background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/logoutHover.png");
@@ -155,6 +175,13 @@ button.callendarbutton:hover
 button.statbutton:hover
 {
   background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/statHover.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+button.profilebutton:hover
+{
+  background:url("C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/userHover.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;

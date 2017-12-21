@@ -1,3 +1,4 @@
+import { DatabaseService } from './../_services/Database.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from './../_services/auth.service';
@@ -14,14 +15,19 @@ import * as Immutable from 'immutable'
     AuthService,
     AngularFireAuth,
     AngularFireDatabase,
+    DatabaseService,
   ]
 })
 export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthService, 
+    private dbSevice: DatabaseService,
     private router: Router) {
   }
   
+  view: number = 0;
+  user
+
   options = Immutable.Map({
     showDots: true,         // Shows a dot navigation component 
     height: 450,            // The initial slideshow height 

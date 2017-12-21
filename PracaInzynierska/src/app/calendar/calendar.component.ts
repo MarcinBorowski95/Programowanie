@@ -153,7 +153,7 @@ export class CalendarComponent implements OnInit {
       }
       this.dbService.newAppointment(appointmentInfo);
 
-      alert("Zostałeś umówiony na " + this.clickedDate + " o godzinie " + this.clickedTime);
+      alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
       this.router.navigate(['']);
     }
     else {

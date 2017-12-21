@@ -2,31 +2,25 @@
   <div class="panelHead">
     <h1> Witaj w panelu głównym </h1>
   </div>
-  <div class="panelHome">
-    <button 
-    title="Wyloguj się" 
-    type="button" 
-    class="logoutbutton" 
-    (click)="logout()" 
-    >
-    </button>
-    <button 
-    title="Przejdź do kalendarza" 
-    type="button" 
-    class="callendarbutton" 
-    routerLink="/calendar"
-    >
-    </button>
-    <button 
-    title="Wyświetl statystyki" 
-    type="button" 
-    class="statbutton" 
-    >
-    </button>
+  <div [ngSwitch]="view">
+    <div class="panelHome" *ngSwitchCase="1">
+      <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
+      </button>
+      <button title="Przejdź do kalendarza" type="button" class="callendarbutton" routerLink="/calendar">
+      </button>
+      <button title="Wyświetl statystyki" type="button" class="statbutton">
+      </button>
+    </div>
+    <div class="panelHome" *ngSwitchCase="0">
+      <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
+      </button>
+      <button title="Przejdź do kalendarza" type="button" class="callendarbutton" routerLink="/calendar">
+      </button>
+      <button title="Edytuj profil" type="button" class="profilebutton">
+      </button>
+    </div>
   </div>
   <div class="slideshow">
     <ng-slideshow [options]="options" [images]="images"></ng-slideshow>
   </div>
 </div>
-
-
