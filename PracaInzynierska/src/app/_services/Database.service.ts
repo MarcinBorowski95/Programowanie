@@ -12,11 +12,15 @@ import { Observable } from 'rxjs/Observable';
 export class DatabaseService {
 
   appointments: Observable<any>;
-  users: Observable<any>;
+  users;
 
   constructor(private db: AngularFireDatabase) {
     this.appointments = db.list('appointment').valueChanges();
     this.users = db.list('users').valueChanges();
+  }
+
+  getUsers(){
+    return this.users;
   }
 
   newAppointment(appointmentInfo): void {

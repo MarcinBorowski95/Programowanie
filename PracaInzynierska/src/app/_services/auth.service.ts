@@ -206,8 +206,6 @@ export class AuthService {
       flag: 0
     }
 
-    console.log(userInfo);
-    console.log(data);
 
     userRef.set(data)
       .catch(error => console.log(error));

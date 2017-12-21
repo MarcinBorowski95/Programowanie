@@ -21,12 +21,12 @@ import * as Immutable from 'immutable'
 export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthService, 
-    private dbSevice: DatabaseService,
+    private dbService: DatabaseService,
     private router: Router) {
   }
   
-  view: number = 0;
-  user
+  view: number;
+  users;
 
   options = Immutable.Map({
     showDots: true,         // Shows a dot navigation component 
@@ -51,12 +51,22 @@ export class HomeComponent implements OnInit {
     if(this.authService.authenticated)
     {
       console.log("Zalogowany");
-      console.log(this.authService.currentUserDisplayName);
     }
     else
     {
       console.log("Brak zalogowanego użytkownika")
     }
+    this.users = this.dbService.getUsers();
+    this.users.subscribe(x => x.forEach(element => {
+      console.log(element);
+      
+      if(this.authService.authState.email == element.email)
+      {
+        this.view=element.flag
+      }
+    }));
+    
+    
   }
   
   logout() {
