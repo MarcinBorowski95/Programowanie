@@ -190,7 +190,7 @@ export class AuthService {
 
   }
 
-  private updateUserFullData(userInfo): void {
+  updateUserFullData(userInfo): void {
     // Writes user name and email to realtime db
     // useful if your app displays information about users or for admin features
     const path = `users/${this.currentUserId}`; // Endpoint on firebase
