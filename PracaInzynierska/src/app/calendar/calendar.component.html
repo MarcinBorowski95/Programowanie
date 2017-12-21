@@ -70,7 +70,14 @@
     </div>
     <div class="col-md-4">
       Wybierz Zabieg i lekrza
-      
+      <div class="btn-group">
+        <select class="btn btn-primary">
+          <option *ngFor="let item of items" value="penis">{{item}}</option>
+        </select>
+        <select class="btn btn-primary">
+          <option *ngFor="let item of items" value="penis">{{item}}</option>
+        </select>
+      </div>
     </div>
   </div>
   <div [ngSwitch]="view">

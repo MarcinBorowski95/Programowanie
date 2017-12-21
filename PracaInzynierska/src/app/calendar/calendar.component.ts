@@ -70,6 +70,7 @@ export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   // dbAppointments = this.dbService.appointments;
+  items = ['lol','lol2']
 
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
