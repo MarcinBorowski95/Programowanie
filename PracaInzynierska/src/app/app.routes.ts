@@ -11,6 +11,8 @@ const routes = [
     {path: "login" , loadChildren: 'app/login/login.module'} ,
     {path: "register" , loadChildren: 'app/register/register.module'},
     {path: "calendar" , loadChildren: 'app/calendar/calendar.module', canActivate: [AuthGuard] },
+    {path: "profileEdit" , loadChildren: 'app/profileEdit/profileEdit.module#ProfileEditModule', canActivate: [AuthGuard] },
+
     {path: "**" , redirectTo: "/" }
     
   ];
