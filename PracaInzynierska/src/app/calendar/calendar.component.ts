@@ -119,7 +119,7 @@ export class CalendarComponent implements OnInit {
     this.events$ = this.dbService.appointments
       .map((appiontments: Appointment[]) =>
         appiontments.map((appointment: Appointment) => ({
-          title: 'appointment.title',
+          title: appointment.zabiegName,
           start: new Date(appointment.date),
           color: colors.yellow,
           meta: {
@@ -209,7 +209,7 @@ export class CalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time)
+    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
   }
 
 }

@@ -1,5 +1,6 @@
 export class Appointment {
     date: string;
-    hour: string;
+    time: string;
     flag: number;
+    zabiegName: string;
   }
