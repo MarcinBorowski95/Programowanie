@@ -1,3 +1,8 @@
-<p>
-  showAppointment works!
-</p>
+<div class="panel">
+    <div class="panelHead">
+      <h1> Wizyty </h1>
+    </div>
+    <div class="panelAppointment" *ngFor="let appointment of appointments | async">
+      {{appointment.zabiegName}} {{appointment.date}} {{appointment.time}}
+    </div>
+  </div>

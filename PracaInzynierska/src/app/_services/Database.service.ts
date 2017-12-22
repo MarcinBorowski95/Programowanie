@@ -35,6 +35,10 @@ export class DatabaseService {
     return this.zabiegi;
   }
 
+  getAppointments() {
+    return this.appointments;
+  }
+
   newAppointment(appointmentInfo): void {
 
     const appointmentID = this.db.createPushId()
