@@ -20,7 +20,7 @@ export class DatabaseService {
     this.appointments = db.list('appointment').valueChanges();
     this.users = db.list('users').valueChanges();
     this.doctors = db.list('users', ref => ref.orderByChild('flag').equalTo(1)).valueChanges();
-    this.zabiegi = db.list('zabiegi').valueChanges();
+    this.zabiegi = db.list('zabieg').valueChanges();
   }
 
   getUsers() {
@@ -28,7 +28,11 @@ export class DatabaseService {
   }
 
   getDoctors() {
-    return this.doctors
+    return this.doctors;
+  }
+
+  getZabiegi() {
+    return this.zabiegi;
   }
 
   newAppointment(appointmentInfo): void {
@@ -60,6 +64,6 @@ export class DatabaseService {
     zabiegRef.set(data)
       .catch(error => console.log(error));
 
-    alert("Dodano zabieg: " + zabiegInfo.name )
+    alert("Dodano zabieg: " + zabiegInfo.name)
   }
 }

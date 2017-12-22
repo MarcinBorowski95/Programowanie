@@ -79,10 +79,12 @@
       Wybierz Zabieg i lekrza
       <div class="btn-group">
         <select class="btn btn-primary">
-          <option *ngFor="let item of items" >{{item}}</option>
+          <option *ngFor="let zabieg of zabiegi | async">
+            {{zabieg.name}}
+          </option>
         </select>
         <select class="btn btn-primary">
-          <option *ngFor="let doctor of doctors | async" >
+          <option *ngFor="let doctor of doctors | async">
             {{doctor.firstname}} {{doctor.lastname}}
           </option>
         </select>

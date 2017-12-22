@@ -75,7 +75,8 @@ export class CalendarComponent implements OnInit {
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
   doctors;
-  doctorsArr;
+
+  zabiegi;
 
   view: string = 'month';
 
@@ -125,6 +126,7 @@ export class CalendarComponent implements OnInit {
         })))
 
     this.doctors = this.dbService.getDoctors();
+    this.zabiegi = this.dbService.getZabiegi();
     
   }
 
