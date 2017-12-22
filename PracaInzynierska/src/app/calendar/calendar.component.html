@@ -20,37 +20,24 @@
       <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
     </div>
   </ng-template>
-  
+
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
-        <div class="btn btn-primary back" routerLink = "/">
+        <div class="btn btn-primary back" routerLink="/">
           Powrót do ekranu głównego
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="btn-group">
-        <div
-          class="btn btn-primary"
-          mwlCalendarPreviousView
-          [view]="view"
-          [(viewDate)]="viewDate"
-          (viewDateChange)="activeDayIsOpen = false">
+        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
           Poprzedni
         </div>
-        <div
-          class="btn btn-outline-secondary"
-          mwlCalendarToday
-          [(viewDate)]="viewDate">
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
           Dzisiaj
         </div>
-        <div
-          class="btn btn-primary"
-          mwlCalendarNextView
-          [view]="view"
-          [(viewDate)]="viewDate"
-          (viewDateChange)="activeDayIsOpen = false">
+        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
           Następny
         </div>
       </div>
@@ -61,16 +48,10 @@
     <div class="col-md-4">
       Typ Widoku
       <div class="btn-group">
-        <div
-          class="btn btn-primary"
-          (click)="view = 'month'"
-          [class.active]="view === 'month'">
+        <div class="btn btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
           Miesiąc
         </div>
-        <div
-          class="btn btn-primary"
-          (click)="view = 'day'"
-          [class.active]="view === 'day'">
+        <div class="btn btn-primary" (click)="view = 'day'" [class.active]="view === 'day'">
           Dzień
         </div>
       </div>
@@ -78,12 +59,14 @@
     <div class="col-md-4">
       Wybierz Zabieg i lekrza
       <div class="btn-group">
-        <select class="btn btn-primary">
+        <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg">
+          <option style="display:none"></option>
           <option *ngFor="let zabieg of zabiegi | async">
             {{zabieg.name}}
           </option>
         </select>
-        <select class="btn btn-primary">
+        <select class="btn btn-primary" id="Doctor" name="Doctor" #DoctorRef="ngModel" [(ngModel)]="choosenDoctor">
+          <option style="display:none"></option>
           <option *ngFor="let doctor of doctors | async">
             {{doctor.firstname}} {{doctor.lastname}}
           </option>
@@ -92,75 +75,36 @@
     </div>
   </div>
   <div [ngSwitch]="view">
-    <mwl-calendar-month-view
-      *ngSwitchCase="'month'"
-      [viewDate]="viewDate"
-      [events]="events$ | async"
-      [weekStartsOn]="weekStartsOn"
-      [weekendDays]="weekendDays"
-      [refresh]="refresh"
-      [locale]="locale"
-      (dayClicked)="daySelected($event.day); "
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+    <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events$ | async" [weekStartsOn]="weekStartsOn"
+      [weekendDays]="weekendDays" [refresh]="refresh" [locale]="locale" (dayClicked)="daySelected($event.day); " (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-day-view
-      *ngSwitchCase="'day'"
-      [viewDate]="viewDate"
-      [locale]="locale"
-      [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
-      (hourSegmentClicked)= "timeSelected($event.date)">
+    <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)" (hourSegmentClicked)="timeSelected($event.date)">
     </mwl-calendar-day-view>
   </div>
   <div class="appointment-handler">
-    <form 
-    class="formAppointment"
-    #formRef = "ngForm"
-    (ngSubmit) = "appointment(formRef.valid)"
-    >
-      <fieldset 
-      class="appointment"
-      ngModelGroup="appointment"
-      >
+    <form class="formAppointment" #formRef="ngForm" (ngSubmit)="appointment(formRef.valid)">
+      <fieldset class="appointment" ngModelGroup="appointment">
         <div class="field">
-          <label class="tag" for="appointmentDate"> Data wizyty </label> 
+          <label class="tag" for="appointmentDate"> Data wizyty </label>
           <br>
-          <input
-          class="appointmentDate"
-          id="appointmentDate"
-          name="appointmentDate"
-          #appointmentDateRef = "ngModel"
-          type="calendarDate"
-          [(ngModel)] = "dateToShow"
-          required
-          onkeydown="return false"
-          readonly="readonly"
-          >
+          <input class="appointmentDate" id="appointmentDate" name="appointmentDate" #appointmentDateRef="ngModel" type="calendarDate"
+            [(ngModel)]="dateToShow" required onkeydown="return false" readonly="readonly">
         </div>
 
         <div class="field">
-          <label class="tag" for="appointmentTime"> Godzina wizyty </label> 
+          <label class="tag" for="appointmentTime"> Godzina wizyty </label>
           <br>
-          <input
-          class="appointmentTime"
-          id="appointmentTime"
-          name="appointmentTime"
-          #appointmentTimeRef = "ngModel"
-          type="calendarTime"
-          [(ngModel)] = "clickedTime"
-          required
-          onkeydown="return false"
-          readonly="readonly"
-          >
+          <input class="appointmentTime" id="appointmentTime" name="appointmentTime" #appointmentTimeRef="ngModel" type="calendarTime"
+            [(ngModel)]="clickedTime" required onkeydown="return false" readonly="readonly">
         </div>
-        
+
         <button type="submit" class="subbutton"> Dodaj Wizytę </button>
 
       </fieldset>
 
-      
+
     </form>
 
   </div>

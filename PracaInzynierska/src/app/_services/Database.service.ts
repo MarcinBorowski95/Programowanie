@@ -44,7 +44,9 @@ export class DatabaseService {
     const data = {
       date: appointmentInfo.date,
       time: appointmentInfo.time,
-      flag: 0
+      flag: 0,
+      zabiegName: appointmentInfo.zabiegName,
+      doctorName: appointmentInfo.doctorName
     }
 
     appointmentRef.set(data)

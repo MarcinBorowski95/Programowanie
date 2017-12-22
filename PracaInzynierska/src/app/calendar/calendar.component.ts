@@ -75,8 +75,10 @@ export class CalendarComponent implements OnInit {
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
   doctors;
+  choosenDoctor;
 
   zabiegi;
+  choosenZabieg;
 
   view: string = 'month';
 
@@ -127,7 +129,7 @@ export class CalendarComponent implements OnInit {
 
     this.doctors = this.dbService.getDoctors();
     this.zabiegi = this.dbService.getZabiegi();
-    
+
   }
 
   daySelected(day: CalendarMonthViewDay): void {
@@ -156,14 +158,49 @@ export class CalendarComponent implements OnInit {
 
   appointment(valid) {
     if (valid) {
-      var appointmentInfo = {
-        date: this.clickedDate,
-        time: this.clickedTime
-      }
-      this.dbService.newAppointment(appointmentInfo);
 
-      alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
-      this.router.navigate(['']);
+      if (this.choosenZabieg == null) {
+        alert("Wybierz zabieg")
+      }
+      else {
+        if (this.choosenDoctor == null) {
+          this.doctors.subscribe(x => {
+            this.choosenDoctor = x[0].email;
+            var appointmentInfo = {
+              date: this.clickedDate,
+              time: this.clickedTime,
+              zabiegName: this.choosenZabieg,
+              doctorName: this.choosenDoctor
+
+            }
+            this.dbService.newAppointment(appointmentInfo);
+
+            alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
+            this.router.navigate(['']);
+          });
+
+        }
+        else {
+          this.doctors.subscribe(x => x.forEach(element => {
+            if (this.choosenDoctor == element.firstname + " " + element.lastname) {
+              this.choosenDoctor = element.email;
+              var appointmentInfo = {
+                date: this.clickedDate,
+                time: this.clickedTime,
+                zabiegName: this.choosenZabieg,
+                doctorName: this.choosenDoctor
+
+              }
+              this.dbService.newAppointment(appointmentInfo);
+
+              alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
+              this.router.navigate(['']);
+            }
+          }));
+
+        }
+
+      }
     }
     else {
       alert("Błędnie uzupełniony formularz")
