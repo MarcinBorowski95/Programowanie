@@ -23,7 +23,7 @@ div.field {
   background:#2c3e50;
   min-height:60vh;
   height: 100vh;
-  min-width:500px;
+  min-width:800px;
   position:relative;
   align-items:center;
   margin:0 auto;
@@ -80,6 +80,28 @@ label:hover
   transition:.3s linear;
 }
 
+.btn-primary
+{
+    background:#1abc9c;
+    font-size:20px;
+    display:inline-block;
+    width:40%;
+    border:none;
+    color:#fff;
+    border-radius:5px 5px 5px 5px;
+    -webkit-transition:.3s linear;
+    -moz-transition:.3s linear;
+    -o-transition:.3s linear;
+    transition:.3s linear;
+    padding:10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.btn-primary:hover
+{
+    background:#008B8B;
+}
 
 button.logoutbutton
 {

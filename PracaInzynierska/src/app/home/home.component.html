@@ -4,12 +4,17 @@
   </div>
   <div [ngSwitch]="view">
     <div class="panelHome" *ngSwitchCase="2">
-      <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
+      <button title="Wyloguj się" type="button" class="btn-primary" (click)="logout()">
+        Wyloguj
       </button>
-      <button title="Przejdź do kalendarza" type="button" class="callendarbutton" routerLink="/calendar">
-      </button>
-      <button title="Dodaj zabieg" type="button" class="zabiegbutton" routerLink="/addZabieg">
+      <button title="Dodaj zabieg" type="button" class="btn-primary" routerLink="/addZabieg">
         Dodaj zabieg
+      </button>
+      <button title="Dodaj zabieg" type="button" class="btn-primary" routerLink="/showUser">
+        Wyświetl użytkowników
+      </button>
+      <button title="Dodaj zabieg" type="button" class="btn-primary" routerLink="/showAppointment">
+        Wyświetl wizyty
       </button>
     </div>
     <div class="panelHome" *ngSwitchCase="1">
@@ -27,9 +32,9 @@
       </button>
       <button title="Edytuj profil" type="button" class="profilebutton" routerLink="/profileEdit">
       </button>
+      <div class="slideshow">
+        <ng-slideshow [options]="options" [images]="images"></ng-slideshow>
+      </div>
     </div>
-  </div>
-  <div class="slideshow">
-    <ng-slideshow [options]="options" [images]="images"></ng-slideshow>
   </div>
 </div>

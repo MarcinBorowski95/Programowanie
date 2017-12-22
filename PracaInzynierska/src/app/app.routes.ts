@@ -13,6 +13,8 @@ const routes = [
     {path: "calendar" , loadChildren: 'app/calendar/calendar.module', canActivate: [AuthGuard] },
     {path: "profileEdit" , loadChildren: 'app/profileEdit/profileEdit.module#ProfileEditModule', canActivate: [AuthGuard] },
     {path: "addZabieg" , loadChildren: 'app/addZabieg/addZabieg.module#AddZabiegModule', canActivate: [AuthGuard] },
+    {path: "showUser" , loadChildren: 'app/showUser/showUser.module#ShowUserModule', canActivate: [AuthGuard] },
+    {path: "showAppointment" , loadChildren: 'app/showAppointment/showAppointment.module#ShowAppointmentModule', canActivate: [AuthGuard] },
 
     {path: "**" , redirectTo: "/" }
     
