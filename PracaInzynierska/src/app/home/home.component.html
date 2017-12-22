@@ -3,6 +3,15 @@
     <h1> Witaj w panelu głównym </h1>
   </div>
   <div [ngSwitch]="view">
+    <div class="panelHome" *ngSwitchCase="2">
+      <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
+      </button>
+      <button title="Przejdź do kalendarza" type="button" class="callendarbutton" routerLink="/calendar">
+      </button>
+      <button title="Dodaj zabieg" type="button" class="zabiegbutton" routerLink="/addZabieg">
+        Dodaj zabieg
+      </button>
+    </div>
     <div class="panelHome" *ngSwitchCase="1">
       <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
       </button>

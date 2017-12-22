@@ -12,6 +12,7 @@ const routes = [
     {path: "register" , loadChildren: 'app/register/register.module'},
     {path: "calendar" , loadChildren: 'app/calendar/calendar.module', canActivate: [AuthGuard] },
     {path: "profileEdit" , loadChildren: 'app/profileEdit/profileEdit.module#ProfileEditModule', canActivate: [AuthGuard] },
+    {path: "addZabieg" , loadChildren: 'app/addZabieg/addZabieg.module#AddZabiegModule', canActivate: [AuthGuard] },
 
     {path: "**" , redirectTo: "/" }
     

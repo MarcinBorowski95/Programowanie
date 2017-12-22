@@ -82,7 +82,9 @@
           <option *ngFor="let item of items" >{{item}}</option>
         </select>
         <select class="btn btn-primary">
-          <option *ngFor="let item of items" >{{item}}</option>
+          <option *ngFor="let doctor of doctors | async" >
+            {{doctor.firstname}} {{doctor.lastname}}
+          </option>
         </select>
       </div>
     </div>

@@ -70,9 +70,12 @@ export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   // dbAppointments = this.dbService.appointments;
-  items = ['lol','lol2']
+  items = ['lol', 'lol2']
 
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
+
+  doctors;
+  doctorsArr;
 
   view: string = 'month';
 
@@ -120,6 +123,9 @@ export class CalendarComponent implements OnInit {
             appointment
           }
         })))
+
+    this.doctors = this.dbService.getDoctors();
+    
   }
 
   daySelected(day: CalendarMonthViewDay): void {

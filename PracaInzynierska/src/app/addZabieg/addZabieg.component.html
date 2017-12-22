@@ -1,0 +1,20 @@
+<div class="panel">
+  <div class="panelHead">
+    <h1> Zarejestruj nowego użytkownika </h1>
+  </div>
+  <div class="panelzabieg">
+    <form class="formzabieg" #formRef="ngForm" (ngSubmit)="addZabieg(formRef.valid)" autocomplete="off">
+      <fieldset class="zabieg" ngModelGroup="zabieg">
+        <div class="field">
+          <label class="tag" for="name"> Nazwa zabiegu </label>
+          <br>
+          <input class="textfield" id="name" name="name" #nameRef="ngModel" type="text" [(ngModel)]="zabieg.name" required pattern="[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŻŹ]+">
+        </div>
+
+        <button type="submit" class="subbutton"> Dodaj zabieg </button>
+        <button type="button" class="logbutton" routerLink="/"> Anuluj dodwanie zabiegu </button>
+
+      </fieldset>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,272 @@
+*
+{
+  margin:0 auto;
+  padding:0;
+}
+
+body
+{
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  font-family:sans-serif;
+  background:#2c3e50;
+}
+
+div.field {
+  padding-top: 10px;
+}
+
+.panel
+{
+  background:url('C:/Users/Boro/Documents/GitHub/Programowanie/PracaInzynierska/src/assets/background.png');
+  background-size: cover;
+  min-height:100vh;
+  height: 105%;
+  min-width:500px;
+  position:relative;
+  align-items:center;
+  margin:0 auto;
+}
+
+.panelHead
+{
+  color:#2c3e50;
+  font-family:sans-serif;
+  text-align:center;
+  min-width:300px;
+  width: 50%;
+  margin:0 auto;
+  padding:20px;
+  background:#ecf0f1;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 10px 1px rgba(0,0,0,0.5);
+  
+}
+
+.panelzabieg
+{
+  position:relative;
+  max-width:750px;
+  width:80%;
+  min-width:300px;
+  margin:0 auto;
+  padding: 10px
+}
+
+form
+{
+  background:#ecf0f1;
+  border-radius:5px;
+  padding-top:5px;
+  width:50%;
+  height: 90%;
+  min-width:300px;
+  position:relative;
+  align-self:center;
+  box-shadow:5px 5px 10px 1px rgba(0,0,0,0.5);
+}
+
+fieldset.zabieg
+{
+  border:none;
+  width:100%;
+  margin:0 auto;
+  
+  height: 90%;
+}
+
+label.tag
+{
+  text-align:left;
+  font-family:sans-serif;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  margin:0 auto;
+  padding:10px 0 0 10px;
+}
+
+label.sex
+{
+  font-family:sans-serif;
+  font-size: 16px;
+  cursor:pointer;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  margin:0 auto;
+  display: block;
+  text-align: center;
+}
+
+label:hover
+{
+  text-shadow: 0 0 8px cyan;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+}
+
+input.textfield
+{
+  width:80%;
+  display:block;
+  font-size:18px;
+  border-radius:5px;
+  border:none;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  outline:none;
+  margin:0 auto;
+  padding:7px 5px;
+}
+
+input.birthdate
+{
+  width:80%;
+  display:block;
+  font-size:16px;
+  font-family: sans-serif;
+  border-radius:5px;
+  border:none;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  outline:none;
+  margin:0 auto;
+  padding:7px 5px;
+}
+
+input.email
+{
+  width:80%;
+  display:block;
+  font-size:18px;
+  font-family: sans-serif;
+  border-radius:5px;
+  border:none;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  outline:none;
+  margin:0 auto;
+  padding:7px 5px;
+}
+
+input.password
+{
+  width:80%;
+  display:block;
+  font-size:18px;
+  font-family: sans-serif;
+  border-radius:5px;
+  border:none;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  outline:none;
+  margin:0 auto;
+  padding:7px 5px;
+}
+
+input.sexradio
+{
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  margin:0 auto;
+  display: block;
+}
+
+input:hover
+{
+  background: rgba(71, 248, 221, 0.50)
+}
+
+
+
+button.subbutton
+{
+  background:#1abc9c;
+  font-size:20px;
+  display:block;
+  width:100%;
+  border:none;
+  color:#fff;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  margin-top:10px;
+  border-bottom:1px solid #0FF;
+  padding:10px;
+}
+
+button.logbutton
+{
+  background:#1abc9c;
+  font-size:20px;
+  display:block;
+  width:100%;
+  border:none;
+  color:#fff;
+  border-radius:0 0 5px 5px;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+  padding:10px;
+}
+
+button:hover
+{
+  background:#008B8B;
+}
+
+.hint
+{
+  font-family:sans-serif;
+  font-size:14px;
+  color:grey;
+  padding-bottom:3px;
+  padding-left:3px;
+  text-align:center;
+}
+
+.error
+{
+  font-family:sans-serif;
+  font-size:13px;
+  color:red;
+  padding-top:3px;
+  padding-left:3px;
+  text-align:center;
+}
+
+input.ng-invalid
+{
+  border:1px solid red;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+}
+
+input.ng-valid
+{
+  border:1px solid green;
+  -webkit-transition:.3s linear;
+  -moz-transition:.3s linear;
+  -o-transition:.3s linear;
+  transition:.3s linear;
+}
