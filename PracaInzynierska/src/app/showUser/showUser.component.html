@@ -1,3 +1,18 @@
-<p>
-  showUser works!
-</p>
+<div class="panel">
+  <div class="panelHead">
+    <h1> Użytkownicy </h1>
+  </div>
+  <div class="panelUser" *ngFor="let user of users | async">
+    <form class="formUser" #formRef="ngForm" (ngSubmit)="changeFlag(user)">
+      {{user.firstname}} {{user.lastname}}
+      <fieldset class="User" ngModelGroup="User">
+        <div class="field">
+          <label class="tag" for="uprawnienia"> Uprawnienia </label>
+          <br>
+          <input class="textfield" id="uprawnienia" name="uprawnienia" value="{{user.flag}}">
+        </div>
+        <button type="submit" class="subbutton"> Zmień uprawnienia </button>
+      </fieldset>
+    </form>
+  </div>
+</div>
