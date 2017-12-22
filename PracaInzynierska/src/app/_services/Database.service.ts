@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { Item } from './../_DBModels/Item';
 import { Appointment } from './../_DBModels/appointment';
 import { Injectable } from '@angular/core';
@@ -11,13 +12,18 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class DatabaseService {
 
-  appointments: Observable<any>;
+  appointments;
+  userAppointments;
   users;
   doctors;
   zabiegi;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private db: AngularFireDatabase,
+    private AuthService: AuthService
+    ) {
     this.appointments = db.list('appointment').valueChanges();
+    this.userAppointments = db.list('appointment', ref => ref.orderByChild('userEmail').equalTo(this.AuthService.currentUserDisplayName)).valueChanges();
     this.users = db.list('users').valueChanges();
     this.doctors = db.list('users', ref => ref.orderByChild('flag').equalTo(1)).valueChanges();
     this.zabiegi = db.list('zabieg').valueChanges();
@@ -50,7 +56,8 @@ export class DatabaseService {
       time: appointmentInfo.time,
       flag: 0,
       zabiegName: appointmentInfo.zabiegName,
-      doctorName: appointmentInfo.doctorName
+      doctorEmail: appointmentInfo.doctorEmail,
+      userEmail: appointmentInfo.userEmail
     }
 
     appointmentRef.set(data)

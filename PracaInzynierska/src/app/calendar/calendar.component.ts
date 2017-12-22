@@ -1,3 +1,4 @@
+import { AuthService } from './../_services/auth.service';
 import { Appointment } from './../_DBModels/appointment';
 import { DatabaseService } from './../_services/Database.service';
 import {
@@ -112,11 +113,12 @@ export class CalendarComponent implements OnInit {
   constructor(
     private modal: NgbModal,
     private dbService: DatabaseService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.events$ = this.dbService.appointments
+    this.events$ = this.dbService.userAppointments
       .map((appiontments: Appointment[]) =>
         appiontments.map((appointment: Appointment) => ({
           title: appointment.zabiegName,
@@ -170,8 +172,8 @@ export class CalendarComponent implements OnInit {
               date: this.clickedDate,
               time: this.clickedTime,
               zabiegName: this.choosenZabieg,
-              doctorName: this.choosenDoctor
-
+              doctorEmail: this.choosenDoctor,
+              userEmail: this.authService.authState.email
             }
             this.dbService.newAppointment(appointmentInfo);
 
@@ -188,7 +190,8 @@ export class CalendarComponent implements OnInit {
                 date: this.clickedDate,
                 time: this.clickedTime,
                 zabiegName: this.choosenZabieg,
-                doctorName: this.choosenDoctor
+                doctorEmail: this.choosenDoctor,
+                userEmail: this.authService.authState.email
 
               }
               this.dbService.newAppointment(appointmentInfo);
