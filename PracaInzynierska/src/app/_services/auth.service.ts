@@ -40,89 +40,36 @@ export class AuthService {
 
   }
 
-  // Returns true if user is logged in
   get authenticated$(): Observable<boolean> {
     return this.afAuth.authState.map((user) => !!user);
   }
 
-  // Returns true if user is logged in
   get authenticated(): boolean {
     return this.authState !== null;
   }
 
-  // Returns current user data
   get currentUser(): any {
     return this.authenticated ? this.authState : null;
   }
 
-  // Returns
   get currentUserObservable(): any {
     return this.afAuth.authState
     
   }
 
-  // Returns current user UID
   get currentUserId(): string {
     return this.authenticated ? this.authState.uid : '';
   }
 
-  // Anonymous User
-  get currentUserAnonymous(): boolean {
-    return this.authenticated ? this.authState.isAnonymous : false
-  }
 
-  // Returns current user display name or Guest
   get currentUserDisplayName(): string {
     if (!this.authState) {
       return 'Guest'
-    } else if (this.currentUserAnonymous) {
-      return 'Anonymous'
     } else {
       return this.authState['email'] || 'User without a Name'
     }
   }
 
-  //// Social Auth ////
-  githubLogin() {
-    const provider = new firebase.auth.GithubAuthProvider()
-    return this.socialSignIn(provider);
-  }
-
-  googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    return this.socialSignIn(provider);
-  }
-
-  facebookLogin() {
-    const provider = new firebase.auth.FacebookAuthProvider()
-    return this.socialSignIn(provider);
-  }
-
-  twitterLogin() {
-    const provider = new firebase.auth.TwitterAuthProvider()
-    return this.socialSignIn(provider);
-  }
-
-  private socialSignIn(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
-      .then((credential) => {
-        this.authState = credential.user
-        this.updateUserData()
-      })
-      .catch(error => console.log(error));
-  }
-
-
-  //// Anonymous Auth ////
-  anonymousLogin() {
-    return this.afAuth.auth.signInAnonymously()
-      .then((user) => {
-        this.authState = user
-      })
-      .catch(error => console.log(error));
-  }
-
-  //// Email/Password Auth ////
   emailSignUp(userInfo: any) {
     const fbAuth = firebase.auth();
     return this.afAuth.auth.setPersistence("local")
@@ -155,7 +102,6 @@ export class AuthService {
     });
   }
 
-  // Sends email allowing user to reset password
   resetPassword(email: string) {
     const fbAuth = firebase.auth();
 
@@ -165,7 +111,6 @@ export class AuthService {
   }
 
 
-  //// Sign Out ////
   signOut(): void {
     this.afAuth.auth.signOut();
     this.router.navigate(['/login'])
@@ -173,11 +118,8 @@ export class AuthService {
   }
 
 
-  //// Helpers ////
   private updateUserData(): void {
-    // Writes user name and email to realtime db
-    // useful if your app displays information about users or for admin features
-    const path = `users/${this.currentUserId}`; // Endpoint on firebase
+    const path = `users/${this.currentUserId}`; 
     const userRef: AngularFireObject<any> = this.db.object(path);
 
     const data = {
@@ -191,9 +133,7 @@ export class AuthService {
   }
 
   updateUserFullData(userInfo): void {
-    // Writes user name and email to realtime db
-    // useful if your app displays information about users or for admin features
-    const path = `users/${this.currentUserId}`; // Endpoint on firebase
+    const path = `users/${this.currentUserId}`;
     const userRef: AngularFireObject<any> = this.db.object(path);
 
     const data = {
@@ -205,7 +145,6 @@ export class AuthService {
       password: userInfo.password,
       flag: 0
     }
-
 
     userRef.set(data)
       .catch(error => console.log(error));
