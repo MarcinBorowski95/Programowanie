@@ -81,6 +81,9 @@ export class CalendarComponent implements OnInit {
   zabiegi;
   choosenZabieg;
 
+  users;
+  userType;
+
   view: string = 'month';
 
   viewDate: Date = new Date();
@@ -115,22 +118,25 @@ export class CalendarComponent implements OnInit {
     private dbService: DatabaseService,
     private authService: AuthService,
     private router: Router
-  ) { }
-
-  ngOnInit(): void {
-    this.events$ = this.dbService.userAppointments
-      .map((appiontments: Appointment[]) =>
-        appiontments.map((appointment: Appointment) => ({
-          title: appointment.zabiegName,
-          start: new Date(appointment.date),
-          color: colors.yellow,
-          meta: {
-            appointment
-          }
-        })))
+  ) {
+    
+    this.events$ =  this.dbService.getUsers()
+      .map((users) => 
+        users.filter((user) => this.authService.authState.email == user.email)[0]
+      )
+      .map((user) => user.flag)
+      .switchMap((userType) => 
+        userType == 0 
+          ? this.dbService.userAppointments 
+          : this.dbService.appointments
+      )
+      .map(fromAppointmentsToEvents);
 
     this.doctors = this.dbService.getDoctors();
     this.zabiegi = this.dbService.getZabiegi();
+   }
+
+  ngOnInit(): void {
 
   }
 
@@ -215,4 +221,15 @@ export class CalendarComponent implements OnInit {
     alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
   }
 
+}
+
+function fromAppointmentsToEvents(appiontments: Appointment[]) {
+  return appiontments.map((appointment: Appointment) => ({
+    title: appointment.zabiegName,
+    start: new Date(appointment.date),
+    color: colors.yellow,
+    meta: {
+      appointment
+    }
+  }))
 }
