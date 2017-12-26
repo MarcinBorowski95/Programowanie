@@ -119,22 +119,22 @@ export class CalendarComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    
-    this.events$ =  this.dbService.getUsers()
-      .map((users) => 
+
+    this.events$ = this.dbService.getUsers()
+      .map((users) =>
         users.filter((user) => this.authService.authState.email == user.email)[0]
       )
       .map((user) => user.flag)
-      .switchMap((userType) => 
-        userType == 0 
-          ? this.dbService.userAppointments 
+      .switchMap((userType) =>
+        userType == 0
+          ? this.dbService.userAppointments
           : this.dbService.appointments
       )
       .map(fromAppointmentsToEvents);
 
     this.doctors = this.dbService.getDoctors();
     this.zabiegi = this.dbService.getZabiegi();
-   }
+  }
 
   ngOnInit(): void {
 
@@ -157,6 +157,7 @@ export class CalendarComponent implements OnInit {
   timeSelected(time: Date): void {
     if (time.getHours() >= 8 && time.getHours() <= 18) {
       this.clickedTime = time.toLocaleTimeString();
+      this.clickedDate = time.getTime();
       this.view = 'month';
     }
     else {
