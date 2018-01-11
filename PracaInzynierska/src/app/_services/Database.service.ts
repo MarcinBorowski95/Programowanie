@@ -57,7 +57,7 @@ export class DatabaseService {
       flag: 0,
       zabiegName: appointmentInfo.zabiegName,
       doctorEmail: appointmentInfo.doctorEmail,
-      userEmail: appointmentInfo.userEmail
+      userEmail: ""
     }
 
     appointmentRef.set(data)

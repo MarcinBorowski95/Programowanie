@@ -57,18 +57,12 @@
       </div>
     </div>
     <div class="col-md-4">
-      Wybierz Zabieg i lekrza
+      Wybierz Zabieg
       <div class="btn-group">
         <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg">
           <option style="display:none"></option>
           <option *ngFor="let zabieg of zabiegi | async">
             {{zabieg.name}}
-          </option>
-        </select>
-        <select class="btn btn-primary" id="Doctor" name="Doctor" #DoctorRef="ngModel" [(ngModel)]="choosenDoctor">
-          <option style="display:none"></option>
-          <option *ngFor="let doctor of doctors | async">
-            {{doctor.firstname}} {{doctor.lastname}}
           </option>
         </select>
       </div>

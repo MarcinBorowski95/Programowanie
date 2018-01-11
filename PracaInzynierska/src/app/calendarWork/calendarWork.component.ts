@@ -73,9 +73,6 @@ export class CalendarWorkComponent implements OnInit {
 
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
-  doctors;
-  choosenDoctor;
-
   zabiegi;
   choosenZabieg;
 
@@ -130,7 +127,6 @@ export class CalendarWorkComponent implements OnInit {
       )
       .map(fromAppointmentsToEvents);
 
-    this.doctors = this.dbService.getDoctors();
     this.zabiegi = this.dbService.getZabiegi();
   }
 
@@ -170,43 +166,16 @@ export class CalendarWorkComponent implements OnInit {
         alert("Wybierz zabieg")
       }
       else {
-        if (this.choosenDoctor == null) {
-          this.doctors.subscribe(x => {
-            this.choosenDoctor = x[0].email;
-            var appointmentInfo = {
-              date: this.clickedDate,
-              time: this.clickedTime,
-              zabiegName: this.choosenZabieg,
-              doctorEmail: this.choosenDoctor,
-              userEmail: this.authService.authState.email
-            }
-            this.dbService.newAppointment(appointmentInfo);
-
-            alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
-            this.router.navigate(['']);
-          });
-
+        var appointmentInfo = {
+          date: this.clickedDate,
+          time: this.clickedTime,
+          zabiegName: this.choosenZabieg,
+          doctorEmail: this.authService.authState.email
         }
-        else {
-          this.doctors.subscribe(x => x.forEach(element => {
-            if (this.choosenDoctor == element.firstname + " " + element.lastname) {
-              this.choosenDoctor = element.email;
-              var appointmentInfo = {
-                date: this.clickedDate,
-                time: this.clickedTime,
-                zabiegName: this.choosenZabieg,
-                doctorEmail: this.choosenDoctor,
-                userEmail: this.authService.authState.email
+        this.dbService.newAppointment(appointmentInfo);
 
-              }
-              this.dbService.newAppointment(appointmentInfo);
-
-              alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
-              this.router.navigate(['']);
-            }
-          }));
-
-        }
+        alert("Ustaliłeś wolny termin na " + this.dateToShow + " o godzinie " + this.clickedTime);
+        this.router.navigate(['']);
 
       }
     }
