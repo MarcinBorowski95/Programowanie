@@ -9,19 +9,19 @@ import { RegisterComponent } from '../register/register.component';
 import { SlideshowModule } from 'ng-slideshow';
 
 const routes = [
-    {path: '' , component: HomeComponent},
-    
+    { path: '', component: HomeComponent },
+
 ]
 
 @NgModule({
     imports: [
-        CommonModule, 
+        CommonModule,
         RouterModule.forChild(routes),
         SlideshowModule,
-        
+
     ],
-    declarations: [HomeComponent] ,
+    declarations: [HomeComponent],
 
 })
 
-export class HomeModule{}
+export class HomeModule { }

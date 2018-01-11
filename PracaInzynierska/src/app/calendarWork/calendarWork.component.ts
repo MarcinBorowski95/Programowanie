@@ -38,6 +38,7 @@ import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { DayViewHour } from 'calendar-utils';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import {Popup} from 'ng2-opd-popup';
 
 const colors: any = {
   red: {
@@ -112,7 +113,8 @@ export class CalendarWorkComponent implements OnInit {
     private modal: NgbModal,
     private dbService: DatabaseService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private popup: Popup
   ) {
 
     this.events$ = this.dbService.getUsers()
@@ -187,6 +189,7 @@ export class CalendarWorkComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
+    this.popup.show();
   }
 
 }

@@ -8,7 +8,7 @@ import { FormsModule } from "@angular/forms";
 import { Routing } from "./app.routes";
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {PopupModule} from 'ng2-opd-popup';
 
 import { AngularFireModule} from 'angularfire2';
 
@@ -33,7 +33,7 @@ export const firebaseConfig = {
     FormsModule,
     Routing,
     AngularFireModule.initializeApp(firebaseConfig),
-    BrowserAnimationsModule
+    PopupModule.forRoot()
   ],
   providers: [
     AuthGuard,
