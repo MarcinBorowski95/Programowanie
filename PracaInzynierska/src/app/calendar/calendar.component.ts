@@ -143,94 +143,21 @@ export class CalendarComponent implements OnInit {
   }
 
   daySelected(day: CalendarMonthViewDay): void {
-    if (isFuture(day.date)) {
-      if (this.selectedDay) {
-        delete this.selectedDay.cssClass;
-      }
       this.viewDate = day.date;
-      this.selectedDay = day;
-      this.clickedDate = day.date.getTime();
-      this.dateToShow = day.date.toLocaleDateString();
       this.view = 'day';
-      day.cssClass = 'cal-day-selected';
-    }
-  }
-
-  timeSelected(time: Date): void {
-    if (time.getHours() >= 8 && time.getHours() <= 18) {
-      this.clickedTime = time.toLocaleTimeString();
-      this.clickedDate = time.getTime();
-      this.view = 'month';
-    }
-    else {
-      alert("Wybrano złą godzinę. Proszę wybrać godzinę między 8:00 a 19:00");
-    }
-  }
-
-  appointment(valid) {
-    if (valid) {
-
-      if (this.choosenZabieg == null) {
-        alert("Wybierz zabieg")
-      }
-      else {
-        if (this.choosenDoctor == null) {
-          this.doctors.subscribe(x => {
-            this.choosenDoctor = x[0].email;
-            var appointmentInfo = {
-              date: this.clickedDate,
-              time: this.clickedTime,
-              zabiegName: this.choosenZabieg,
-              doctorEmail: this.choosenDoctor,
-              userEmail: this.authService.authState.email
-            }
-            this.dbService.newAppointment(appointmentInfo);
-
-            alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
-            this.router.navigate(['']);
-          });
-
-        }
-        else {
-          this.doctors.subscribe(x => x.forEach(element => {
-            if (this.choosenDoctor == element.firstname + " " + element.lastname) {
-              this.choosenDoctor = element.email;
-              var appointmentInfo = {
-                date: this.clickedDate,
-                time: this.clickedTime,
-                zabiegName: this.choosenZabieg,
-                doctorEmail: this.choosenDoctor,
-                userEmail: this.authService.authState.email
-
-              }
-              this.dbService.newAppointment(appointmentInfo);
-
-              alert("Zostałeś umówiony na " + this.dateToShow + " o godzinie " + this.clickedTime);
-              this.router.navigate(['']);
-            }
-          }));
-
-        }
-
-      }
-    }
-    else {
-      alert("Błędnie uzupełniony formularz")
-    }
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
   }
-
 }
 
 function fromAppointmentsToEvents(appiontments: Appointment[]) {
   return appiontments.map((appointment: Appointment) => ({
     title: appointment.zabiegName,
     start: new Date(appointment.date),
-    color: colors.yellow,
+    color: colors.green,
     meta: {
       appointment
     }

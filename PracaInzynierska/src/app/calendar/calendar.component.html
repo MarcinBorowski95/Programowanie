@@ -83,29 +83,4 @@
       (eventTimesChanged)="eventTimesChanged($event)" (hourSegmentClicked)="timeSelected($event.date)">
     </mwl-calendar-day-view>
   </div>
-  <div class="appointment-handler">
-    <form class="formAppointment" #formRef="ngForm" (ngSubmit)="appointment(formRef.valid)">
-      <fieldset class="appointment" ngModelGroup="appointment">
-        <div class="field">
-          <label class="tag" for="appointmentDate"> Data wizyty </label>
-          <br>
-          <input class="appointmentDate" id="appointmentDate" name="appointmentDate" #appointmentDateRef="ngModel" type="calendarDate"
-            [(ngModel)]="dateToShow" required onkeydown="return false" readonly="readonly">
-        </div>
-
-        <div class="field">
-          <label class="tag" for="appointmentTime"> Godzina wizyty </label>
-          <br>
-          <input class="appointmentTime" id="appointmentTime" name="appointmentTime" #appointmentTimeRef="ngModel" type="calendarTime"
-            [(ngModel)]="clickedTime" required onkeydown="return false" readonly="readonly">
-        </div>
-
-        <button type="submit" class="subbutton"> Dodaj Wizytę </button>
-
-      </fieldset>
-
-
-    </form>
-
-  </div>
 </div>
