@@ -11,6 +11,7 @@ const routes = [
     {path: "login" , loadChildren: 'app/login/login.module'} ,
     {path: "register" , loadChildren: 'app/register/register.module'},
     {path: "calendar" , loadChildren: 'app/calendar/calendar.module', canActivate: [AuthGuard] },
+    {path: "calendarWork" , loadChildren: 'app/calendarWork/calendarWork.module', canActivate: [AuthGuard] },
     {path: "profileEdit" , loadChildren: 'app/profileEdit/profileEdit.module#ProfileEditModule', canActivate: [AuthGuard] },
     {path: "addZabieg" , loadChildren: 'app/addZabieg/addZabieg.module#AddZabiegModule', canActivate: [AuthGuard] },
     {path: "showUser" , loadChildren: 'app/showUser/showUser.module#ShowUserModule', canActivate: [AuthGuard] },

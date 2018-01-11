@@ -1,0 +1,111 @@
+<div class="body">
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Event action occurred</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        Action:
+        <pre>{{ modalData?.action }}</pre>
+      </div>
+      <div>
+        Event:
+        <pre>{{ modalData?.event | json }}</pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+    </div>
+  </ng-template>
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary back" routerLink="/">
+          Powrót do ekranu głównego
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+          Poprzedni
+        </div>
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+          Dzisiaj
+        </div>
+        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+          Następny
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'pl' }}</h3>
+    </div>
+    <div class="col-md-4">
+      Typ Widoku
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
+          Miesiąc
+        </div>
+        <div class="btn btn-primary" (click)="view = 'day'" [class.active]="view === 'day'">
+          Dzień
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      Wybierz Zabieg i lekrza
+      <div class="btn-group">
+        <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg">
+          <option style="display:none"></option>
+          <option *ngFor="let zabieg of zabiegi | async">
+            {{zabieg.name}}
+          </option>
+        </select>
+        <select class="btn btn-primary" id="Doctor" name="Doctor" #DoctorRef="ngModel" [(ngModel)]="choosenDoctor">
+          <option style="display:none"></option>
+          <option *ngFor="let doctor of doctors | async">
+            {{doctor.firstname}} {{doctor.lastname}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events$ | async" [weekStartsOn]="weekStartsOn"
+      [weekendDays]="weekendDays" [refresh]="refresh" [locale]="locale" (dayClicked)="daySelected($event.day); " (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events$ | async" [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)" (hourSegmentClicked)="timeSelected($event.date)">
+    </mwl-calendar-day-view>
+  </div>
+  <div class="appointment-handler">
+    <form class="formAppointment" #formRef="ngForm" (ngSubmit)="appointment(formRef.valid)">
+      <fieldset class="appointment" ngModelGroup="appointment">
+        <div class="field">
+          <label class="tag" for="appointmentDate"> Data wizyty </label>
+          <br>
+          <input class="appointmentDate" id="appointmentDate" name="appointmentDate" #appointmentDateRef="ngModel" type="calendarDate"
+            [(ngModel)]="dateToShow" required onkeydown="return false" readonly="readonly">
+        </div>
+
+        <div class="field">
+          <label class="tag" for="appointmentTime"> Godzina wizyty </label>
+          <br>
+          <input class="appointmentTime" id="appointmentTime" name="appointmentTime" #appointmentTimeRef="ngModel" type="calendarTime"
+            [(ngModel)]="clickedTime" required onkeydown="return false" readonly="readonly">
+        </div>
+
+        <button type="submit" class="subbutton"> Dodaj Wizytę </button>
+
+      </fieldset>
+
+
+    </form>
+
+  </div>
+</div>

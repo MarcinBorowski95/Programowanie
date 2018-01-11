@@ -55,9 +55,9 @@ const colors: any = {
 };
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
+  selector: 'app-calendarWork',
+  templateUrl: './calendarWork.component.html',
+  styleUrls: ['./calendarWork.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     DatabaseService,
@@ -67,7 +67,7 @@ const colors: any = {
     },
   ]
 })
-export class CalendarComponent implements OnInit {
+export class CalendarWorkComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
 
