@@ -3,4 +3,6 @@ export class Appointment {
     time: string;
     flag: number;
     zabiegName: string;
+    doctorEmail: string;
+    userEmail: string;
   }

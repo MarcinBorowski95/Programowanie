@@ -61,7 +61,7 @@
       <div class="btn-group">
         <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg">
           <option style="display:none"></option>
-          <option *ngFor="let zabieg of zabiegi | async">
+          <option *ngFor="let zabieg of zabiegi | async" >
             {{zabieg.name}}
           </option>
         </select>

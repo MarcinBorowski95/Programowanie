@@ -122,16 +122,7 @@ export class CalendarComponent implements OnInit {
     private router: Router
   ) {
 
-    this.events$ = this.dbService.getUsers()
-      .map((users) =>
-        users.filter((user) => this.authService.authState.email == user.email)[0]
-      )
-      .map((user) => user.flag)
-      .switchMap((userType) =>
-        userType == 0
-          ? this.dbService.userAppointments
-          : this.dbService.appointments
-      )
+    this.events$ = this.dbService.getAppointments()
       .map(fromAppointmentsToEvents);
 
     this.doctors = this.dbService.getDoctors();
@@ -143,14 +134,15 @@ export class CalendarComponent implements OnInit {
   }
 
   daySelected(day: CalendarMonthViewDay): void {
-      this.viewDate = day.date;
-      this.view = 'day';
+    this.viewDate = day.date;
+    this.view = 'day';
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
   }
+
 }
 
 function fromAppointmentsToEvents(appiontments: Appointment[]) {
