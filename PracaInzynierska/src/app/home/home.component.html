@@ -34,6 +34,13 @@
       </button>
 
     </div>
+    <div class="panelHome" *ngSwitchDefault>
+      <button title="Wyloguj się" type="button" class="logoutbutton" (click)="logout()">
+      </button>
+        <h1> Loading... </h1>
+        <h5> W przypadku pozostania na tym ekranie proszę się wylogować </h5>
+
+    </div>
     <div class="slideshow">
       <ng-slideshow [options]="options" [images]="images"></ng-slideshow>
     </div>
