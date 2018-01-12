@@ -145,16 +145,24 @@ export class CalendarComponent implements OnInit {
 
   onZabiegChange() {
     this.events$ = this.events$
-    .map((appointments) =>
-      appointments.filter((appointment) => this.choosenZabieg == appointment.meta.appointment.zabiegName
-      ));
+      .map((appointments) => {
+        if (this.choosenZabieg == "") {
+          return appointments;
+        } else {
+          return appointments.filter((appointment) => this.choosenZabieg == appointment.meta.appointment.zabiegName)
+        }
+      });
   }
 
   onDoctorChange() {
     this.events$ = this.events$
-      .map((appointments) =>
-        appointments.filter((appointment) => this.choosenDoctor == appointment.meta.appointment.doctorEmail
-        ));
+    .map((appointments) => {
+      if (this.choosenDoctor == "") {
+        return appointments;
+      } else {
+        return appointments.filter((appointment) => this.choosenDoctor == appointment.meta.appointment.doctorEmail)
+      }
+    });
   }
 }
 
