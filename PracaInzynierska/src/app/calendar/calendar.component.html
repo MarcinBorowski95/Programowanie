@@ -80,10 +80,12 @@
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
     <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events$ | async" [locale]="locale" [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)" (hourSegmentClicked)="timeSelected($event.date)">
+      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
   </div>
-  <popup (confirmClick)="signForEvent(modalData)">
-    Czy chcesz się zapisać na wizytę?
+
+  <popup #popup1 (confirmClick)="signForEvent(modalData)">
+    {{popupText}}
   </popup>
+
 </div>

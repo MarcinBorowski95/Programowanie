@@ -39,6 +39,7 @@ import { DayViewHour } from 'calendar-utils';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Popup } from 'ng2-opd-popup';
+import 'rxjs/Rx';
 
 const colors: any = {
   red: {
@@ -75,7 +76,6 @@ const colors: any = {
 export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
   doctors;
@@ -110,11 +110,9 @@ export class CalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-
-  ];
-
   activeDayIsOpen: boolean = true;
+
+  popupText = ""
 
   constructor(
     private modal: NgbModal,
@@ -125,7 +123,8 @@ export class CalendarComponent implements OnInit {
   ) {
 
     this.events$ = this.dbService.getAppointments()
-      .map(fromAppointmentsToEvents);
+      .map(this.fromAppointmentsToEvents)
+
 
     this.doctors = this.dbService.getDoctors();
     this.zabiegi = this.dbService.getZabiegi();
@@ -142,19 +141,58 @@ export class CalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+    if (event.meta.appointment.flag == 0) {
+      this.popupText = "Czy chcesz się zapisać na ten termin wizyty?"
+      this.popupOKShow(event);
+    } else if (event.meta.appointment.flag == 1 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
+      this.popupText = "Czy chcesz odwołać wizytę?"
+      this.popupOKShow(event);
+    } else if( event.meta.appointment.flag == 2) {
+      this.popupText = "Termin zajęty"
+      this.popupBadShow(event);
+    } else {
+      this.popupText = "Termin zarezerwowany"
+      this.popupBadShow(event);
+    }
+  }
+
+  popupOKShow(event)
+  {
     this.popup.show({
       header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
       color: "#2c3e50", // red, blue.... 
       widthProsentage: 60, // The with of the popou measured by browser width 
       confirmBtnContent: "Tak", // The text on your confirm button 
       cancleBtnContent: "Nie", // the text on your cancel button 
-    });   
+    });
   }
 
-  signForEvent(modalData)
+  popupBadShow(event)
   {
-    this.dbService.updateAppointment(this.modalData.event.meta.appointment.key, this.authService.currentUserDisplayName);
-    this.popup.hide();
+    this.popup.show({
+      header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
+      color: "#2c3e50", // red, blue.... 
+      widthProsentage: 60, // The with of the popou measured by browser width 
+      showButtons: false
+    });
+  }
+
+  signForEvent(modalData) {
+    if (modalData.event.meta.appointment.flag == 0) {
+      this.dbService.updateAppointment(modalData.event.meta.appointment.key, this.authService.currentUserDisplayName);
+      this.popup.hide();
+    } else if (modalData.event.meta.appointment.flag == 1 && modalData.event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
+      this.dbService.updateAppointment(modalData.event.meta.appointment.key, "");
+      this.popup.hide();
+    } else if (modalData.event.meta.appointment.flag == 2 && modalData.event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
+      this.popup.hide();
+      alert("Termin zajęty")
+    } else {
+      this.popup.hide();
+      alert("Termin zarezerwowany")
+    }
+
+
   }
 
   onZabiegChange() {
@@ -170,23 +208,58 @@ export class CalendarComponent implements OnInit {
 
   onDoctorChange() {
     this.events$ = this.events$
-    .map((appointments) => {
-      if (this.choosenDoctor == "") {
-        return appointments;
+      .map((appointments) => {
+        if (this.choosenDoctor == "") {
+          return appointments;
+        } else {
+          return appointments.filter((appointment) => this.choosenDoctor == appointment.meta.appointment.doctorEmail)
+        }
+      });
+  }
+
+  fromAppointmentsToEvents(appiontments: Appointment[]) {
+    return appiontments.map((appointment: Appointment) => {
+      if (appointment.flag == 0) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.green,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 1) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.yellow,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 2) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.red,
+          meta: {
+            appointment
+          }
+        })
       } else {
-        return appointments.filter((appointment) => this.choosenDoctor == appointment.meta.appointment.doctorEmail)
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.blue,
+          meta: {
+            appointment
+          }
+        })
       }
-    });
+
+    })
   }
 }
 
-function fromAppointmentsToEvents(appiontments: Appointment[]) {
-  return appiontments.map((appointment: Appointment) => ({
-    title: appointment.zabiegName,
-    start: new Date(appointment.date),
-    color: colors.green,
-    meta: {
-      appointment
-    }
-  }))
-}
+
+
