@@ -59,15 +59,15 @@
     <div class="col-md-4">
       Wybierz Zabieg i lekrza
       <div class="btn-group">
-        <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg">
+        <select class="btn btn-primary" id="zabiegName" name="zabiegName" #zabiegNameRef="ngModel" [(ngModel)]="choosenZabieg" (change)="onZabiegChange()">
           <option style="display:none"></option>
           <option *ngFor="let zabieg of zabiegi | async" >
             {{zabieg.name}}
           </option>
         </select>
-        <select class="btn btn-primary" id="Doctor" name="Doctor" #DoctorRef="ngModel" [(ngModel)]="choosenDoctor">
+        <select class="btn btn-primary" id="Doctor" name="Doctor" #DoctorRef="ngModel" [(ngModel)]="choosenDoctor" (change)="onDoctorChange()">
           <option style="display:none"></option>
-          <option *ngFor="let doctor of doctors | async">
+          <option [value]="doctor.email" *ngFor="let doctor of doctors | async">
             {{doctor.firstname}} {{doctor.lastname}}
           </option>
         </select>

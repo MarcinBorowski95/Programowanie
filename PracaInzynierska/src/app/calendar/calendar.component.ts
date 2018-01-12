@@ -78,10 +78,10 @@ export class CalendarComponent implements OnInit {
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
   doctors;
-  choosenDoctor;
+  choosenDoctor = "";
 
   zabiegi;
-  choosenZabieg;
+  choosenZabieg = "";
 
   users;
   userType;
@@ -140,9 +140,22 @@ export class CalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
+    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName);
   }
 
+  onZabiegChange() {
+    this.events$ = this.events$
+    .map((appointments) =>
+      appointments.filter((appointment) => this.choosenZabieg == appointment.meta.appointment.zabiegName
+      ));
+  }
+
+  onDoctorChange() {
+    this.events$ = this.events$
+      .map((appointments) =>
+        appointments.filter((appointment) => this.choosenDoctor == appointment.meta.appointment.doctorEmail
+        ));
+  }
 }
 
 function fromAppointmentsToEvents(appiontments: Appointment[]) {
