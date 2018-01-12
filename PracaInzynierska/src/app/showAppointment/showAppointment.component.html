@@ -3,6 +3,6 @@
       <h1> Wizyty </h1>
     </div>
     <div class="panelAppointment" *ngFor="let appointment of appointments | async">
-      {{appointment.zabiegName}} {{appointment.date}} {{appointment.time}}
+      Nazwa zabiegu: {{appointment.zabiegName}} <br> Czas wizyty: {{appointment.date | date}} {{appointment.time}} <br>Email użytkownika: {{appointment.userEmail}} <br>Email lekarza wykonującego: {{appointment.doctorEmail}}
     </div>
   </div>
