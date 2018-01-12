@@ -52,6 +52,10 @@ const colors: any = {
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA'
+  },
+  green: {
+    primary: '#1dda17',
+    secondary: '#ceffcc'
   }
 };
 
@@ -71,6 +75,7 @@ const colors: any = {
 export class CalendarWorkComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
+  popupText = "";
 
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
 
@@ -127,7 +132,7 @@ export class CalendarWorkComponent implements OnInit {
           ? this.dbService.userAppointments
           : this.dbService.userAppointments
       )
-      .map(fromAppointmentsToEvents);
+      .map(this.fromAppointmentsToEvents);
 
     this.zabiegi = this.dbService.getZabiegi();
 
@@ -189,6 +194,19 @@ export class CalendarWorkComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+    if (event.meta.appointment.flag == 0) {
+      this.popupText = "Czy chcesz usunąć wizitę?"
+      this.popupOKShow(event);
+    } else if (event.meta.appointment.flag == 1) {
+      this.popupText = "Czy chcesz przyjąć rezerwacje?"
+      this.popupOKShow(event);
+    } else if (event.meta.appointment.flag == 2) {
+      this.popupText = "Czy chcesz odwołać przyjęcie rezerwacji?"
+      this.popupOKShow(event);
+    }
+  }
+
+  popupOKShow(event) {
     this.popup.show({
       header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
       color: "#2c3e50", // red, blue.... 
@@ -199,8 +217,59 @@ export class CalendarWorkComponent implements OnInit {
   }
 
   deleteEvent(modalData) {
-    this.dbService.deleteAppointment(modalData.event.meta.appointment.key);
-    this.popup.hide();
+    if (modalData.event.meta.appointment.flag == 0) {
+      this.dbService.deleteAppointment(modalData.event.meta.appointment.key);
+      this.popup.hide();
+    } else if (modalData.event.meta.appointment.flag == 1) {
+      this.dbService.acceptAppointment(modalData.event.meta.appointment.key);
+      this.popup.hide();
+    } else if (modalData.event.meta.appointment.flag == 2) {
+      this.dbService.updateAppointment(modalData.event.meta.appointment.key, "");
+      this.popup.hide();
+    }
+  }
+
+  fromAppointmentsToEvents(appiontments: Appointment[]) {
+    return appiontments.map((appointment: Appointment) => {
+      if (appointment.flag == 0) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.green,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 1) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.yellow,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 2) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.red,
+          meta: {
+            appointment
+          }
+        })
+      } else {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.blue,
+          meta: {
+            appointment
+          }
+        })
+      }
+
+    })
   }
 }
 

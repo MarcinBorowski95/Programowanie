@@ -88,11 +88,13 @@ export class DatabaseService {
   }
   updateAppointment(key: string, newText: string) {
     if (newText == "") {
-      this.appointmentsRef.update(key, { userEmail: newText, flag: 0});
+      this.appointmentsRef.update(key, { userEmail: newText, flag: 0 });
     } else {
-      this.appointmentsRef.update(key, { userEmail: newText, flag: 1});
+      this.appointmentsRef.update(key, { userEmail: newText, flag: 1 });
     }
-
+  }
+  acceptAppointment(key: string) {
+    this.appointmentsRef.update(key, { flag: 2 });
   }
   deleteAppointment(key: string) {
     this.appointmentsRef.remove(key);

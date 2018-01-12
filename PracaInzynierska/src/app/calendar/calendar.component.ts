@@ -147,8 +147,11 @@ export class CalendarComponent implements OnInit {
     } else if (event.meta.appointment.flag == 1 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
       this.popupText = "Czy chcesz odwołać wizytę?"
       this.popupOKShow(event);
-    } else if( event.meta.appointment.flag == 2) {
+    } else if( event.meta.appointment.flag == 2 && event.meta.appointment.userEmail != this.authService.currentUserDisplayName) {
       this.popupText = "Termin zajęty"
+      this.popupBadShow(event);
+    } else if( event.meta.appointment.flag == 2 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
+      this.popupText = "Twoja rezerwacja została potwierdzona"
       this.popupBadShow(event);
     } else {
       this.popupText = "Termin zarezerwowany"
