@@ -12,25 +12,52 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class DatabaseService {
 
-  appointments;
-  userAppointments;
-  users;
-  doctors;
-  zabiegi;
+  appointmentsRef: AngularFireList<any>;
+  userAppointmentsRef: AngularFireList<any>;
+  usersRef: AngularFireList<any>;
+  doctorsRef: AngularFireList<any>;
+  zabiegiRef: AngularFireList<any>;
+
+  appointments: Observable<any[]>;
+  userAppointments: Observable<any[]>;
+  users: Observable<any[]>;
+  userstest;
+  doctors: Observable<any[]>;
+  zabiegi: Observable<any[]>;
+
 
   constructor(
     private db: AngularFireDatabase,
     private AuthService: AuthService
     ) {
-    this.appointments = db.list('appointment').valueChanges();
-    this.userAppointments = db.list('appointment', ref => ref.orderByChild('userEmail').equalTo(this.AuthService.currentUserDisplayName)).valueChanges();
-    this.users = db.list('users').valueChanges();
-    this.doctors = db.list('users', ref => ref.orderByChild('flag').equalTo(1)).valueChanges();
-    this.zabiegi = db.list('zabieg').valueChanges();
+    this.appointmentsRef = db.list('appointment');
+    this.userAppointmentsRef = db.list('appointment', ref => ref.orderByChild('userEmail').equalTo(this.AuthService.currentUserDisplayName));
+    this.usersRef = db.list('users');
+    this.doctorsRef = db.list('users', ref => ref.orderByChild('flag').equalTo(1));
+    this.zabiegiRef = db.list('zabieg');
+
+    this.appointments = this.appointmentsRef.snapshotChanges().map(this.getFullData);
+    this.userAppointments = this.userAppointmentsRef.snapshotChanges().map(this.getFullData);
+    this.users = this.usersRef.snapshotChanges().map(this.getFullData);
+    this.doctors = this.doctorsRef.snapshotChanges().map(this.getFullData);
+    this.zabiegi = this.zabiegiRef.snapshotChanges().map(this.getFullData);
+
   }
 
   getUsers() {
     return this.users;
+  }
+  addUser(newName: string) {
+    this.usersRef.push({ text: newName });
+  }
+  updateUser(key: string, newText: string) {
+    this.usersRef.update(key, { text: newText });
+  }
+  deleteUser(key: string) {    
+    this.usersRef.remove(key); 
+  }
+  deleteEverythingUser() {
+    this.usersRef.remove();
   }
 
   getDoctors() {
@@ -40,9 +67,33 @@ export class DatabaseService {
   getZabiegi() {
     return this.zabiegi;
   }
+  addZabieg(newName: string) {
+    this.zabiegiRef.push({ text: newName });
+  }
+  updateZabieg(key: string, newText: string) {
+    this.zabiegiRef.update(key, { text: newText });
+  }
+  deleteZabieg(key: string) {    
+    this.zabiegiRef.remove(key); 
+  }
+  deleteEverythingZabieg() {
+    this.zabiegiRef.remove();
+  }
 
   getAppointments() {
     return this.appointments;
+  }
+  addAppointment(newName: string) {
+    this.appointmentsRef.push({ text: newName });
+  }
+  updateAppointment(key: string, newText: string) {
+    this.appointmentsRef.update(key, { text: newText });
+  }
+  deleteAppointment(key: string) {    
+    this.appointmentsRef.remove(key); 
+  }
+  deleteEverythingAppointment() {
+    this.appointmentsRef.remove();
   }
 
   newAppointment(appointmentInfo): void {
@@ -78,5 +129,9 @@ export class DatabaseService {
       .catch(error => console.log(error));
 
     alert("Dodano zabieg: " + zabiegInfo.name)
+  }
+
+  getFullData(changes) {
+    return changes.map(c => ({ key: c.payload.key, ...c.payload.val()}));
   }
 }

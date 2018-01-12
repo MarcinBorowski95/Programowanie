@@ -49,7 +49,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.users = this.dbService.getUsers();
-    this.users.subscribe(x => x.forEach(element => {      
+    this.users.subscribe(x => 
+      x.forEach(element => {      
       if(this.authService.authState.email == element.email)
       {
         this.view=element.flag

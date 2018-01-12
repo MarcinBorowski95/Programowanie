@@ -130,6 +130,7 @@ export class CalendarWorkComponent implements OnInit {
       .map(fromAppointmentsToEvents);
 
     this.zabiegi = this.dbService.getZabiegi();
+
   }
 
   ngOnInit(): void {
@@ -188,10 +189,17 @@ export class CalendarWorkComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName)
-    this.popup.show();
+    this.popup.show({
+      header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
+      color: "#2c3e50", // red, blue.... 
+      widthProsentage: 60, // The with of the popou measured by browser width 
+  });
   }
 
+  deleteEvent(modalData) {
+    this.dbService.deleteAppointment(modalData.event.meta.appointment.key);
+    this.popup.hide();
+  }
 }
 
 function fromAppointmentsToEvents(appiontments: Appointment[]) {
