@@ -31,7 +31,7 @@ export class DatabaseService {
     private AuthService: AuthService
   ) {
     this.appointmentsRef = db.list('appointment');
-    this.userAppointmentsRef = db.list('appointment', ref => ref.orderByChild('userEmail').equalTo(this.AuthService.currentUserDisplayName));
+    this.userAppointmentsRef = db.list('appointment', ref => ref.orderByChild('doctorEmail').equalTo(this.AuthService.currentUserDisplayName));
     this.usersRef = db.list('users');
     this.doctorsRef = db.list('users', ref => ref.orderByChild('flag').equalTo(1));
     this.zabiegiRef = db.list('zabieg');

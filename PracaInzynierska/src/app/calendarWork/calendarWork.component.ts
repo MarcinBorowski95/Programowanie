@@ -125,7 +125,7 @@ export class CalendarWorkComponent implements OnInit {
       .switchMap((userType) =>
         userType == 0
           ? this.dbService.userAppointments
-          : this.dbService.appointments
+          : this.dbService.userAppointments
       )
       .map(fromAppointmentsToEvents);
 
