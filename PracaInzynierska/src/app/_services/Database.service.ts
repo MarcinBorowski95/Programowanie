@@ -29,7 +29,7 @@ export class DatabaseService {
   constructor(
     private db: AngularFireDatabase,
     private AuthService: AuthService
-    ) {
+  ) {
     this.appointmentsRef = db.list('appointment');
     this.userAppointmentsRef = db.list('appointment', ref => ref.orderByChild('userEmail').equalTo(this.AuthService.currentUserDisplayName));
     this.usersRef = db.list('users');
@@ -53,8 +53,8 @@ export class DatabaseService {
   updateUser(key: string, newText: string) {
     this.usersRef.update(key, { text: newText });
   }
-  deleteUser(key: string) {    
-    this.usersRef.remove(key); 
+  deleteUser(key: string) {
+    this.usersRef.remove(key);
   }
   deleteEverythingUser() {
     this.usersRef.remove();
@@ -73,8 +73,8 @@ export class DatabaseService {
   updateZabieg(key: string, newText: string) {
     this.zabiegiRef.update(key, { text: newText });
   }
-  deleteZabieg(key: string) {    
-    this.zabiegiRef.remove(key); 
+  deleteZabieg(key: string) {
+    this.zabiegiRef.remove(key);
   }
   deleteEverythingZabieg() {
     this.zabiegiRef.remove();
@@ -87,10 +87,15 @@ export class DatabaseService {
     this.appointmentsRef.push({ text: newName });
   }
   updateAppointment(key: string, newText: string) {
-    this.appointmentsRef.update(key, { text: newText });
+    if (newText == "") {
+      this.appointmentsRef.update(key, { userEmail: newText, flag: 0});
+    } else {
+      this.appointmentsRef.update(key, { userEmail: newText, flag: 1});
+    }
+
   }
-  deleteAppointment(key: string) {    
-    this.appointmentsRef.remove(key); 
+  deleteAppointment(key: string) {
+    this.appointmentsRef.remove(key);
   }
   deleteEverythingAppointment() {
     this.appointmentsRef.remove();
@@ -132,6 +137,6 @@ export class DatabaseService {
   }
 
   getFullData(changes) {
-    return changes.map(c => ({ key: c.payload.key, ...c.payload.val()}));
+    return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
   }
 }

@@ -38,6 +38,7 @@ import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { DayViewHour } from 'calendar-utils';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { Popup } from 'ng2-opd-popup';
 
 const colors: any = {
   red: {
@@ -119,7 +120,8 @@ export class CalendarComponent implements OnInit {
     private modal: NgbModal,
     private dbService: DatabaseService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private popup: Popup
   ) {
 
     this.events$ = this.dbService.getAppointments()
@@ -140,7 +142,19 @@ export class CalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    alert("Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName);
+    this.popup.show({
+      header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
+      color: "#2c3e50", // red, blue.... 
+      widthProsentage: 60, // The with of the popou measured by browser width 
+      confirmBtnContent: "Tak", // The text on your confirm button 
+      cancleBtnContent: "Nie", // the text on your cancel button 
+    });   
+  }
+
+  signForEvent(modalData)
+  {
+    this.dbService.updateAppointment(this.modalData.event.meta.appointment.key, this.authService.currentUserDisplayName);
+    this.popup.hide();
   }
 
   onZabiegChange() {

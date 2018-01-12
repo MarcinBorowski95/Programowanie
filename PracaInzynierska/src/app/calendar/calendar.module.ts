@@ -7,6 +7,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DemoUtilsModule } from '../demo-utils/module';
 import { CalendarComponent } from './calendar.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PopupModule } from 'ng2-opd-popup';
 
 const routes = [
   {path: '' , component: CalendarComponent},
@@ -21,7 +22,8 @@ const routes = [
     NgbModalModule.forRoot(),
     CalendarModule.forRoot(),
     DemoUtilsModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    PopupModule.forRoot()
   ],
   declarations: [CalendarComponent]
 })
