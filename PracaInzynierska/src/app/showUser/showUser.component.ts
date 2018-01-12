@@ -14,7 +14,7 @@ export class ShowUserComponent implements OnInit {
   ) { }
 
   users;
-  
+  flag;
 
   ngOnInit() {
     this.users = this.dbService.getUsers();
@@ -22,6 +22,6 @@ export class ShowUserComponent implements OnInit {
 
   changeFlag(user)
   {
-    
+    this.dbService.updateUser(user.key, user.flag)
   }
 }

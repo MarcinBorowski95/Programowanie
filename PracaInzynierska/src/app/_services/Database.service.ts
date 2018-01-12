@@ -50,8 +50,8 @@ export class DatabaseService {
   addUser(newName: string) {
     this.usersRef.push({ text: newName });
   }
-  updateUser(key: string, newText: string) {
-    this.usersRef.update(key, { text: newText });
+  updateUser(key: string, flag: number) {
+    this.usersRef.update(key, { flag: flag });
   }
   deleteUser(key: string) {
     this.usersRef.remove(key);
