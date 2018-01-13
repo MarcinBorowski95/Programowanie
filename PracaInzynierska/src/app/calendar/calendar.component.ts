@@ -47,7 +47,7 @@ const colors: any = {
     secondary: '#FAE3E3'
   },
   blue: {
-    primary: '#1e90ff',
+    primary: 'blue',
     secondary: '#D1E8FF'
   },
   yellow: {
@@ -57,6 +57,14 @@ const colors: any = {
   green: {
     primary: '#1dda17',
     secondary: '#ceffcc'
+  },
+  cyan: {
+    primary: 'cyan',
+    secondary: '#ceffcc'
+  },
+  black: {
+    primary: '#000000',
+    secondary: '#000000'
   }
 };
 
@@ -77,6 +85,8 @@ export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   events$: Observable<Array<CalendarEvent<{ appointment: Appointment }>>>;
+
+  userEmail = this.authService.currentUserDisplayName;
 
   doctors;
   choosenDoctor = "";
@@ -122,16 +132,15 @@ export class CalendarComponent implements OnInit {
     private popup: Popup
   ) {
 
-    this.events$ = this.dbService.getAppointments()
-      .map(this.fromAppointmentsToEvents)
 
-
-    this.doctors = this.dbService.getDoctors();
-    this.zabiegi = this.dbService.getZabiegi();
   }
 
   ngOnInit(): void {
+    this.events$ = this.dbService.getAppointments()
+      .map((appointments) => this.fromAppointmentsToEvents(appointments, this.userEmail))
 
+    this.doctors = this.dbService.getDoctors();
+    this.zabiegi = this.dbService.getZabiegi();
   }
 
   daySelected(day: CalendarMonthViewDay): void {
@@ -147,10 +156,10 @@ export class CalendarComponent implements OnInit {
     } else if (event.meta.appointment.flag == 1 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
       this.popupText = "Czy chcesz odwołać wizytę?"
       this.popupOKShow(event);
-    } else if( event.meta.appointment.flag == 2 && event.meta.appointment.userEmail != this.authService.currentUserDisplayName) {
+    } else if (event.meta.appointment.flag == 2 && event.meta.appointment.userEmail != this.authService.currentUserDisplayName) {
       this.popupText = "Termin zajęty"
       this.popupBadShow(event);
-    } else if( event.meta.appointment.flag == 2 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
+    } else if (event.meta.appointment.flag == 2 && event.meta.appointment.userEmail == this.authService.currentUserDisplayName) {
       this.popupText = "Twoja rezerwacja została potwierdzona"
       this.popupBadShow(event);
     } else {
@@ -159,22 +168,20 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  popupOKShow(event)
-  {
+  popupOKShow(event) {
     this.popup.show({
       header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
-      color: "#2c3e50", // red, blue.... 
+      color: "#5566ff", // red, blue.... 
       widthProsentage: 60, // The with of the popou measured by browser width 
       confirmBtnContent: "Tak", // The text on your confirm button 
       cancleBtnContent: "Nie", // the text on your cancel button 
     });
   }
 
-  popupBadShow(event)
-  {
+  popupBadShow(event) {
     this.popup.show({
       header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
-      color: "#2c3e50", // red, blue.... 
+      color: "#5566ff", // red, blue.... 
       widthProsentage: 60, // The with of the popou measured by browser width 
       showButtons: false
     });
@@ -220,9 +227,10 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  fromAppointmentsToEvents(appiontments: Appointment[]) {
+  fromAppointmentsToEvents(appiontments: Appointment[], userEmail) {
     return appiontments.map((appointment: Appointment) => {
-      if (appointment.flag == 0) {
+
+      if (appointment.flag == 0 && appointment.userEmail == "") {
         return ({
           title: appointment.zabiegName,
           start: new Date(appointment.date),
@@ -231,7 +239,25 @@ export class CalendarComponent implements OnInit {
             appointment
           }
         })
-      } else if (appointment.flag == 1) {
+      } else if (appointment.flag == 1 && appointment.userEmail == this.userEmail) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.cyan,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 2 && appointment.userEmail == this.userEmail) {
+        return ({
+          title: appointment.zabiegName,
+          start: new Date(appointment.date),
+          color: colors.blue,
+          meta: {
+            appointment
+          }
+        })
+      } else if (appointment.flag == 1 && appointment.userEmail != this.userEmail) {
         return ({
           title: appointment.zabiegName,
           start: new Date(appointment.date),
@@ -240,7 +266,7 @@ export class CalendarComponent implements OnInit {
             appointment
           }
         })
-      } else if (appointment.flag == 2) {
+      } else if (appointment.flag == 2 && appointment.userEmail != this.userEmail) {
         return ({
           title: appointment.zabiegName,
           start: new Date(appointment.date),
@@ -253,7 +279,7 @@ export class CalendarComponent implements OnInit {
         return ({
           title: appointment.zabiegName,
           start: new Date(appointment.date),
-          color: colors.blue,
+          color: colors.black,
           meta: {
             appointment
           }

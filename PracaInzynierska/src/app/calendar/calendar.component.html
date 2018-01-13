@@ -83,6 +83,24 @@
       (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
   </div>
+  <div class="row text-center">
+    <div class="col-md-4">
+      <p>Legenda</p>
+      <p style="color:green;font-size:20px;">Kolor zielony - Termin wolny</p>
+      <p style="color:yellow;font-size:20px;text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;  ">Kolor zółty - Termin zarezerwowany przez inną osobę</p>
+      <p style="color:red;font-size:20px;">Kolor czerwony - Termin zajęty przez inną osobę</p>
+      <p style="color:cyan;font-size:20px;text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;  ">Kolor jasny niebieski - Termin zarezerwowany przez Ciebie</p>
+      <p style="color:blue;font-size:20px;">Kolor ciemny niebieski - Termin zajęty przez Ciebie</p>
+    </div>
+  </div>
 
   <popup #popup1 (confirmClick)="signForEvent(modalData)">
     {{popupText}}

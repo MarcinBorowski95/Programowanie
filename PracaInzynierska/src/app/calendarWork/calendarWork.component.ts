@@ -209,7 +209,7 @@ export class CalendarWorkComponent implements OnInit {
   popupOKShow(event) {
     this.popup.show({
       header: "Wizyta dnia " + event.start.toLocaleDateString() + " o godzinie " + event.meta.appointment.time + " na zabieg: " + event.meta.appointment.zabiegName,
-      color: "#2c3e50", // red, blue.... 
+      color: "#5566ff", // red, blue.... 
       widthProsentage: 60, // The with of the popou measured by browser width 
       confirmBtnContent: "Tak", // The text on your confirm button 
       cancleBtnContent: "Nie", // the text on your cancel button 
