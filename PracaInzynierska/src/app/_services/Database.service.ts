@@ -51,7 +51,15 @@ export class DatabaseService {
     this.usersRef.push({ text: newName });
   }
   updateUser(key: string, flag: number) {
-    this.usersRef.update(key, { flag: flag });
+    if (flag==0) {
+      this.usersRef.update(key, { flag: 0 });
+    } else if (flag==1) {
+      this.usersRef.update(key, { flag: 1 });
+    } else if (flag==2) {
+      this.usersRef.update(key, { flag: 2 });
+    } else {
+      this.usersRef.update(key, { flag: 3 });
+    }
   }
   deleteUser(key: string) {
     this.usersRef.remove(key);

@@ -60,7 +60,7 @@ const colors: any = {
   },
   cyan: {
     primary: 'cyan',
-    secondary: '#ceffcc'
+    secondary: '#D1E8FF'
   },
   black: {
     primary: '#000000',
